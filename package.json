@@ -1,0 +1,17 @@
+{
+  "name": "q-learner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "qunit -r console"
+  },
+  "author": "Yury Prokashev",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^7.1.0"
+  },
+  "devDependencies": {
+    "qunit": "^2.11.1"
+  }
+}
