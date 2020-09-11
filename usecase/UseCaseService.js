@@ -1,7 +1,7 @@
 module.exports = UseCaseService;
-const RewardCalculatorRequestFactory = require("../RewardCalculatorRequestFactory");
-const RewardCalculator = require("../RewardCalculator");
-const RewardCalculatorContextFactory = require("../RewardCalculatorContextFactory");
+const RewardCalculatorRequestFactory = require("./RewardCalculatorRequestFactory");
+const RewardCalculator = require("./RewardCalculator");
+const RewardCalculatorContextFactory = require("./RewardCalculatorContextFactory");
 
 function UseCaseService(repositoryService){
     this.getRewardCalculator = ()=>{

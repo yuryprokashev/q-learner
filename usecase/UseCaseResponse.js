@@ -4,10 +4,11 @@ module.exports.Builder = UseCaseResponseBuilder;
  *
  * @constructor
  */
-function UseCaseResponseBuilder(){
+function UseCaseResponseBuilder(userRequest){
     let _logs = [];
     let _dataSet;
     let _dataAdded;
+    let _error;
     this.addLog = str =>{
         _logs.push(str);
         return this;
@@ -21,12 +22,16 @@ function UseCaseResponseBuilder(){
         _dataAdded[key]=obj;
         return this;
     };
+    this.setError = error =>{
+        _error = {message: error.message, stack: error.stack};
+        return this;
+    };
     this.build = ()=>{
         if(_dataAdded && _dataSet) throw new Error("Use either .addData or .setData, not both.");
         let data;
         if(_dataSet) data = _dataSet;
         if(_dataAdded) data = _dataAdded;
-        return new UseCaseResponse(data, _logs);
+        return new UseCaseResponse(data, _logs, _error);
     };
 }
 
@@ -34,11 +39,17 @@ function UseCaseResponseBuilder(){
  *
  * @constructor
  */
-function UseCaseResponse(data, logs){
+function UseCaseResponse(userRequest, data, logs, error){
+    this.getUserRequest = ()=>{
+        return userRequest;
+    };
     this.getData = ()=>{
         return data;
     };
     this.getLogs = ()=>{
         return logs;
+    };
+    this.getError = ()=>{
+        return error;
     };
 }

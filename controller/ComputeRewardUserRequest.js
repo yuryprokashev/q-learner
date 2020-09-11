@@ -13,4 +13,5 @@ function ComputeRewardsRequest(startDay, dayCount, rewardPeriod, rewardType){
     this.dayCount = dayCount;
     this.rewardPeriod = rewardPeriod;
     this.rewardType = rewardType;
+    this.debug = true;
 }
