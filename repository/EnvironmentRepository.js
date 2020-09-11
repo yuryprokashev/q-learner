@@ -1,5 +1,5 @@
 const RepositoryQueryBuilder = require("./RepositoryQueryBuilder");
-const Time = require("./TimeHelper");
+const Time = require("../basic/TimeHelper");
 
 module.exports = EnvironmentRepository;
 
