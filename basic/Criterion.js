@@ -66,12 +66,21 @@ function CriterionBuilder() {
  * @constructor
  */
 function Criterion(objectFieldName, operatorExpression) {
-    this.getFieldName = function () {
-        return objectFieldName;
+    /**
+     * Evaluates if object matches this criterion.
+     * @param object
+     * @returns {boolean}
+     */
+    this.evaluate = object =>{
+        let objectField = object[objectFieldName];
+        let actual = typeof objectField === "function" ? objectField() : objectField;
+        return operatorExpression.evaluate(actual);
     };
-    this.getOperatorExpression = function () {
-        return operatorExpression;
-    };
+    /**
+     *
+     * @param map - the 1-to-1 Map FROM object field names TO datasource column names.
+     * @returns {string}
+     */
     this.asSql = map =>{
         let sqlColumnName = map.get(objectFieldName);
         return `${sqlColumnName}${operatorExpression.asSql()}`;
