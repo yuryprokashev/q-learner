@@ -1,5 +1,5 @@
-const CriterionBuilder = require("../basic/Criterion").Builder;
-const CriteriaBuilder = require("../basic/Criteria").Builder;
+const CriterionBuilder = require("../criteria/Criterion").Builder;
+const CriteriaBuilder = require("../criteria/Criteria").Builder;
 module.exports = ()=>{
     QUnit.module("criterion");
     QUnit.test("Criterion for value field", assert =>{
