@@ -11,9 +11,10 @@ function RepositoryService(dataSourceService, factoryService){
     ];
     let _environmentRepository;
     this.getEnvironmentRepository = () =>{
+        if(_environmentRepository) return _environmentRepository;
         let db = dataSourceService.getDatabaseConnection(DB_FILE);
         let environmentFactory = factoryService.getEnvironmentFactory();
-        if(!_environmentRepository) _environmentRepository = new SqlRepositoryBuilder()
+        _environmentRepository = new SqlRepositoryBuilder()
             .setDbConnection(db)
             .setDefinition(ENVIRONMENT_SQL)
             .setFactory(environmentFactory)
