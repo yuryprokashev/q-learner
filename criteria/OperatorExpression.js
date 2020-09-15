@@ -1,4 +1,4 @@
-const Validator = require("./Validator");
+const Validator = require("../basic/Validator");
 module.exports.Builder = OperatorExpressionBuilder;
 
 /**
