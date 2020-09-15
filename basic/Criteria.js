@@ -50,13 +50,14 @@ function Criteria(criteria, conjunctions){
     };
     /**
      *
-     * @param map - the 1-to-1 Map FROM object field names TO datasource column names.
      * @returns {string}
+     * @param mappings{string [][]} the 1-to-1 mappings FROM object field names TO datasource column names.
+     * @example [["createdAt", "created"]] <= the mapping from 'createdAt' attribute to 'created' column in the database table.
      */
-    this.asSql = map =>{
+    this.asSql = mappings =>{
         return criteria.map((criterion, index) => {
             let conjunction = conjunctions[index - 1];
-            return `${criterion.asSql(map)} ${conjunction || ""}`;
+            return `${conjunction || ""} ${criterion.asSql(mappings)}`;
         }).join(" ");
     };
 }

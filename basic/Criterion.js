@@ -78,10 +78,11 @@ function Criterion(objectFieldName, operatorExpression) {
     };
     /**
      *
-     * @param map - the 1-to-1 Map FROM object field names TO datasource column names.
+     * @param mappings{string[][]} - the 1-to-1 mappings FROM object field names TO datasource column names.
      * @returns {string}
      */
-    this.asSql = map =>{
+    this.asSql = mappings =>{
+        let map = new Map(mappings);
         let sqlColumnName = map.get(objectFieldName);
         return `${sqlColumnName}${operatorExpression.asSql()}`;
     };
