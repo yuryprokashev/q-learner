@@ -17,13 +17,11 @@ module.exports = testEnv =>{
         assert.strictEqual(query.asSql([["createdAt", "created"]]).toLowerCase(), " created >= 1577982720000 and created <= 1577982780000", "Query transformation to SQL statement works")
         let environments = testEnv.environmentRepository.getByQuery(query);
         assert.strictEqual(environments.length, 153, " 153 Environments records received.");
-        assert.strictEqual(environments[0].getSymbol(), "_MSFT", "First Environment record symbol is _MSFT");
-        assert.strictEqual(environments[0].getCreatedAt(), 1577982720000, "First Environment record created timestamp is 1577982720000");
-        let bid = environments[0].getParameter("bid").getValue();
-        console.log(typeof bid);
-        console.log(bid);
-        let ask = environments[0].getParameter("ask").getValue();
-        console.log(ask);
-        console.log(ask - bid);
+
+        let firstEnvironment = environments[0];
+        assert.strictEqual(firstEnvironment.getSymbol(), "_MSFT", "First Environment symbol is _MSFT");
+        assert.strictEqual(firstEnvironment.getCreatedAt(), 1577982720000, "First Environment created timestamp is 1577982720000");
+        assert.strictEqual(firstEnvironment.getParameters().length, 7, "First Environment has 7 parameters");
+        assert.strictEqual(firstEnvironment.getParameter("bid").getValue(), "158.310000000000002274");
     });
 }
