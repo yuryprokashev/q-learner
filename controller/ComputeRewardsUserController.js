@@ -10,13 +10,13 @@ function ComputeRewardsUserController(){
     const _dataSources = new DataSourceService();
     const _factories = new FactoryService();
     const _repositories = new RepositoryService(_dataSources, _factories);
-    const _useCases = new UseCaseService(_repositories);
+    const _useCases = new UseCaseService(_repositories, _factories);
     const _responders = new ResponderService();
     this.onUserRequest = ()=>{
         const useCase = _useCases.getRewardCalculator();
         const responder = _responders.getConsoleResponder(useCase);
 
-        const userRequest = new ComputeRewardsUserRequest("2020-01-02", 0, 10, "buy");
+        const userRequest = new ComputeRewardsUserRequest("2020-01-02", 0, 10, "buy", 1);
         responder.respond(userRequest);
     };
 }
