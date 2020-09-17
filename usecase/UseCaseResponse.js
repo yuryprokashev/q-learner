@@ -31,7 +31,7 @@ function UseCaseResponseBuilder(userRequest){
         let data;
         if(_dataSet) data = _dataSet;
         if(_dataAdded) data = _dataAdded;
-        return new UseCaseResponse(data, _logs, _error);
+        return new UseCaseResponse(userRequest, data, _logs, _error);
     };
 }
 
