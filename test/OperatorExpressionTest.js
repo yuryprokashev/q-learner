@@ -1,4 +1,4 @@
-const OperatorExpression = require("../criteria/OperatorExpression");
+const OperatorExpression = require("../model/OperatorExpression");
 
 module.exports = ()=>{
     QUnit.module("operator");

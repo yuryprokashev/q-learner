@@ -66,6 +66,12 @@ function CriterionBuilder() {
  * @constructor
  */
 function Criterion(objectFieldName, operatorExpression) {
+    this.getFieldName = ()=>{
+        return objectFieldName;
+    };
+    this.expected = ()=>{
+        return operatorExpression.expected();
+    };
     /**
      * Evaluates if object matches this criterion.
      * @param object

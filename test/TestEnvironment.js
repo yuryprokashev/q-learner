@@ -1,6 +1,6 @@
 const Database = require("better-sqlite3");
-const Criterion = require("../criteria/Criterion");
-const Criteria = require("../criteria/Criteria");
+const Criterion = require("../model/Criterion");
+const Criteria = require("../model/Criteria");
 const FactoryService = require("../factory/FactoryService");
 const SqlRepositoryBuilder = require("../repository/Repository").SqlBuilder;
 

@@ -1,3 +1,6 @@
+const OneToManyMap = require("../basic/OneToManyMap");
+const CriterionBuilder = require("../model/Criterion").Builder;
+const CriteriaBuilder = require("../model/Criteria").Builder;
 module.exports = RewardCalculatorContextFactory;
 
 /**

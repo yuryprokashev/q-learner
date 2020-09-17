@@ -29,6 +29,13 @@ function CriteriaBuilder(criterion){
  * @constructor
  */
 function Criteria(criteria, conjunctions){
+    const _criterionMap = new Map();
+    criteria.forEach(c =>{
+        _criterionMap.set(c.getFieldName(), c);
+    });
+    this.getCriterion = fieldName =>{
+        return _criterionMap.get(fieldName);
+    };
     /**
      * Evaluates if object matches the criteria. Criteria is evaluated from left to right.
      * The result of the first conjunction becomes the first operand for the next expression evaluation.

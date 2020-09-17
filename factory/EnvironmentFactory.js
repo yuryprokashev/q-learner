@@ -1,6 +1,6 @@
 const OneToManyMap = require("../basic/OneToManyMap");
-const EnvironmentBuilder = require("../environment/Environment").Builder;
-const Parameter = require("../environment/Environment").Parameter;
+const EnvironmentBuilder = require("../model/Environment").Builder;
+const Parameter = require("../model/Environment").Parameter;
 module.exports = EnvironmentFactory;
 function EnvironmentFactory(){
     /**
