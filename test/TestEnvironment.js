@@ -2,6 +2,8 @@ const Database = require("better-sqlite3");
 const Criterion = require("../model/Criterion");
 const Criteria = require("../model/Criteria");
 const FactoryService = require("../factory/FactoryService");
+const DataSourceService = require("../data-source/DataSourceService");
+const CsvTableGateway = require("../repository/CsvTableGateway");
 const SqlRepositoryBuilder = require("../repository/Repository").SqlBuilder;
 
 module.exports = TestEnvironment;
@@ -13,6 +15,7 @@ function TestEnvironment(){
         ["parameterValue", "value"]
     ];
     const _factories = new FactoryService();
+    const _dataSources = new DataSourceService();
     this.CriterionBuilder = Criterion.Builder;
     this.CriteriaBuilder = Criteria.Builder;
     this.db = new Database("C:/Users/yuryp/AppData/Roaming/MetaQuotes/Terminal/Common/Files/mt5.sqlite",
@@ -23,4 +26,7 @@ function TestEnvironment(){
         .setFactory(_factories.getEnvironmentFactory())
         .setMappings(ENVIRONMENT_MAPPINGS)
         .build()
+    this.factoryService = _factories;
+    const envFile = _dataSources.getFile("C:/Users/yuryp/WebstormProjects/q-learner/test/environment-records.csv");
+    this.environmentRecordsGateway = new CsvTableGateway(envFile.getContent());
 }
