@@ -1,5 +1,6 @@
 const Timeslot = require("../model/Timeslot");
 const TimeBucket = require("../model/TimeBucket");
+const Validator = require("../basic/Validator");
 module.exports = TimeBucketFactory;
 
 function TimeBucketFactory(){
@@ -22,6 +23,7 @@ function TimeBucketFactory(){
         return _createTimeBuckets(jobConfig.start, jobConfig.end, jobConfig.length, jobConfig.step);
     };
     function _createTimeBuckets(start, end, duration, step){
+        _validateInput(start, end, duration, step);
         let buckets = [];
         let bucketCount = 0;
         while(true){
@@ -31,5 +33,11 @@ function TimeBucketFactory(){
             bucketCount++;
         }
         return buckets;
+    }
+    function _validateInput(start, end, duration, step){
+        Validator.isDefined("Buckets Start Timestamp", start);
+        Validator.isDefined("Buckets End Timestamp", end);
+        Validator.isDefined("Bucket Duration", duration);
+        Validator.isDefined("Bucket Step", step);
     }
 }
