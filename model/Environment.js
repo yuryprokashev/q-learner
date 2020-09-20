@@ -13,7 +13,7 @@ function EnvironmentBuilder(){
         return this;
     };
     this.setCreatedAt = number =>{
-        _createdAt = number;
+        _createdAt = parseInt(number);
         return this;
     };
     this.setSymbol = str =>{
