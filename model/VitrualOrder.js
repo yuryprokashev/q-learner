@@ -1,4 +1,35 @@
-module.exports = VirtualOrder;
+module.exports.Builder = VirtualOrderBuilder;
+
+/**
+ *
+ * @constructor
+ */
+function VirtualOrderBuilder(){
+    let _id, _timeslot, _orderSentEnvironment, _orderExecutedEnvironment, _reward;
+    this.setId = str =>{
+        _id = str;
+        return this;
+    };
+    this.setTimeslot = timeslot =>{
+        _timeslot = timeslot;
+        return this;
+    };
+    this.setOrderSentEnvironment = environment =>{
+        _orderSentEnvironment = environment;
+        return this;
+    };
+    this.setOrderExecutedEnvironment = environment =>{
+        _orderExecutedEnvironment = environment;
+        return this;
+    };
+    this.setReward = reward =>{
+        _reward = reward;
+        return this;
+    };
+    this.build = ()=>{
+        return new VirtualOrder(_id, _timeslot, _orderSentEnvironment, _orderExecutedEnvironment, _reward);
+    };
+}
 
 /**
  * Виртуальный ордер помогает рассчитать награду для стратегий Продавец и Покупатель.
@@ -6,73 +37,26 @@ module.exports = VirtualOrder;
  * Каждая такая точка - это объект типа Environment.
  * @param id
  * @param timeslot
- * @param environments
- * @param executionDelay
+ * @param orderSentEnvironment
+ * @param orderExecutedEnvironment
+ * @param reward
  * @constructor
  */
-function VirtualOrder(id, timeslot, environments, executionDelay){
-    let _reward;
-    let _executionDelay = executionDelay || 0;
+function VirtualOrder(id, timeslot, orderSentEnvironment, orderExecutedEnvironment,  reward){
+
     this.getId = ()=>{
         return id;
     };
     this.getExecutionDelay = ()=>{
-        return _executionDelay;
+        return orderExecutedEnvironment.getCreatedAt() - orderSentEnvironment.getCreatedAt();
     };
     this.getOrderSentEnvironment = ()=>{
-        return _getOrderSentEnvironment();
+        return orderSentEnvironment
     };
     this.getOrderExecutedEnvironment = ()=>{
-        return _getOrderExecutedEnvironment();
+        return orderExecutedEnvironment;
     };
     this.getReward = type =>{
-        if(!_reward) _computeReward();
-        return _reward[type];
+        return reward[type];
     };
-    function _computeReward(){
-        _reward = {buy: 0, sell: 0};
-        /*
-        Bid is always less than Ask.
-        When we play Buy, we exit on Bid. So the larger the Bid - the better. =>we need to find the max bid.
-        Whilst when we play Sell, we exit on Ask. So the lower the Ask - the better. => we need to find the min ask.
-         */
-        let allBids = environments.map(e =>{
-            return e.getParameter("bid").getValue();
-        });
-        let maxBid = Math.max(...allBids);
-
-        let allAsks = environments.map(e =>{
-            return e.getParameter("ask").getValue();
-        });
-        let minAsk = Math.min(...allAsks);
-
-        /*
-        Now when computing the Buy reward, our entry price is the ask of the first environment.
-        Whilst, when computing the Sell reward, our entry price is the bid of the first environment.
-         */
-        let environmentAtOrderExecution = _getOrderExecutedEnvironment();
-        let entryBuy = environmentAtOrderExecution.getParameter("ask").getValue();
-        let entrySell = environmentAtOrderExecution.getParameter("bid").getValue();
-
-        /*
-        Finally setting the reward.
-        For Buy: when maxBid > entry Buy, then we may have an exit with profit. So buy reward is maxBid - entryBuy.
-        For Sell: when entrySell > minAsk, then we may have an exit with profit. So sell reward is entrySell - minAsk.
-         */
-        _reward.buy = maxBid - entryBuy;
-        _reward.sell = entrySell - minAsk;
-    }
-    function _getOrderExecutedEnvironment(){
-        let currentEnvironment;
-        for(let i = 0; i < environments.length; i++){
-            currentEnvironment = environments[i];
-            if(currentEnvironment.getCreatedAt() >= _getOrderSentEnvironment().getCreatedAt() + _executionDelay) {
-                break;
-            }
-        }
-        return currentEnvironment;
-    }
-    function _getOrderSentEnvironment(){
-        return environments[0];
-    }
 }
