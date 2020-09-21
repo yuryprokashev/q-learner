@@ -3,7 +3,7 @@ module.exports = testEnvironment =>{
     let statement;
     QUnit.test("Prepare Statement", assert =>{
         assert.expect(0);
-        statement = testEnvironment.db.prepare("select * from parameters where environment_id in (select id from environments where created >= ? and created <= ?)")
+        statement = testEnvironment.db.prepare("select * from parameters where parent_id in (select id from environments where created >= ? and created <= ?)")
     });
     QUnit.test("Execute Statement", assert=>{
         assert.expect(0);

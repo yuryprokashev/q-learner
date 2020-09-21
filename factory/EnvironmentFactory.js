@@ -10,12 +10,12 @@ function EnvironmentFactory(){
      * @param records[].value - the value of the environment parameter.
      * @param records[].symbol - the symbol of the environment.
      * @param records[].created - the timestamp when environment was created.
-     * @param records[].environment_id - the id of the environment.
+     * @param records[].parent_id - the id of the environment (parent of the parameter).
      * @returns {Environment}
      */
     this.fromRecords = records =>{
         let recordGroups = records.reduce((acc, record) =>{
-            acc.set(record.environment_id, record);
+            acc.set(record.parent_id, record);
             return acc;
         }, new OneToManyMap());
         return recordGroups.keys().map(environmentId =>{

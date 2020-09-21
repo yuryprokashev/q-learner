@@ -7,7 +7,7 @@ module.exports = SqlTableGateway;
  * @example <caption>Simple table definition:</caption>
  * select * from environments
  * @example <caption>Table as query definition</caption>
- * select e.id, e.symbol, e.created, p.name, p.value from parameters as p left join environments as e on e.id = p.environment_id
+ * select e.id, e.symbol, e.created, p.name, p.value from parameters as p left join environments as e on e.id = p.parent_id
  * @constructor
  */
 function SqlTableGateway(db, tableDefinition){

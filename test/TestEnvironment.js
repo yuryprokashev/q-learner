@@ -8,10 +8,10 @@ const SqlRepositoryBuilder = require("../repository/Repository").SqlBuilder;
 
 module.exports = TestEnvironment;
 function TestEnvironment(){
-    const ENVIRONMENT_SQL = "select p.id, e.id as environment_id, e.symbol, e.created, p.name, p.value from parameters as p left join environments as e on e.id = p.environment_id";
+    const ENVIRONMENT_SQL = "select p.id, e.id as parent_id, e.symbol, e.created, p.name, p.value from parameters as p left join environments as e on e.id = p.parent_id";
     const ENVIRONMENT_MAPPINGS = [
         ["id", "id"], ["symbol", "symbol"], ["createdAt", "created"],
-        ["environmentId", "environment_id"], ["parameterName", "name"],
+        ["parentId", "parent_id"], ["parameterName", "name"],
         ["parameterValue", "value"]
     ];
     const _factories = new FactoryService();
