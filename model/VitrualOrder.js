@@ -43,7 +43,6 @@ function VirtualOrderBuilder(){
  * @constructor
  */
 function VirtualOrder(id, timeslot, orderSentEnvironment, orderExecutedEnvironment,  reward){
-
     this.getId = ()=>{
         return id;
     };

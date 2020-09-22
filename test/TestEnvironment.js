@@ -3,8 +3,8 @@ const Criterion = require("../model/Criterion");
 const Criteria = require("../model/Criteria");
 const FactoryService = require("../factory/FactoryService");
 const DataSourceService = require("../data-source/DataSourceService");
-const CsvTableGateway = require("../repository/CsvTableGateway");
-const SqlRepositoryBuilder = require("../repository/Repository").SqlBuilder;
+const CsvTableGateway = require("../gateway/CsvTableGateway");
+const SqlRepositoryBuilder = require("../repository/Repository").Builder;
 
 module.exports = TestEnvironment;
 function TestEnvironment(){
