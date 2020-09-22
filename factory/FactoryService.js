@@ -1,6 +1,7 @@
 const EnvironmentFactory = require("./EnvironmentFactory");
 const TimeBucketFactory = require("./TimeBucketFactory");
 const VirtualOrderFactory = require("./VirtualOrderFactory");
+const SqlStatementFactory = require("./SqlStatementFactory");
 module.exports = FactoryService;
 function FactoryService(){
     let _environmentFactory, _timeBucketFactory, _vOrderFactory;
@@ -15,5 +16,8 @@ function FactoryService(){
     this.getVirtualOrderFactory = ()=>{
         if(!_vOrderFactory) _vOrderFactory = new VirtualOrderFactory();
         return _vOrderFactory;
+    };
+    this.getSqlStatementFactory = mappings=>{
+        return new SqlStatementFactory(mappings);
     };
 }
