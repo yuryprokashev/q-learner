@@ -1,4 +1,4 @@
-module.exports = SqlTableGateway;
+module.exports = SqlTableReader;
 
 /**
  *
@@ -10,7 +10,7 @@ module.exports = SqlTableGateway;
  * select e.id, e.symbol, e.created, p.name, p.value from parameters as p left join environments as e on e.id = p.parent_id
  * @constructor
  */
-function SqlTableGateway(db, tableDefinition){
+function SqlTableReader(db, tableDefinition){
     const SELECT_ALL = `select * from (${tableDefinition})`;
     /**
      *
