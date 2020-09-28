@@ -2,6 +2,7 @@ const EnvironmentFactory = require("./EnvironmentFactory");
 const TimeBucketFactory = require("./TimeBucketFactory");
 const VirtualOrderFactory = require("./VirtualOrderFactory");
 const SqlStatementFactory = require("./SqlStatementFactory");
+const Validator = require("../basic/Validator");
 module.exports = FactoryService;
 function FactoryService(){
     let _environmentFactory, _timeBucketFactory, _vOrderFactory;
@@ -17,7 +18,8 @@ function FactoryService(){
         if(!_vOrderFactory) _vOrderFactory = new VirtualOrderFactory();
         return _vOrderFactory;
     };
-    this.getSqlStatementFactory = mappings=>{
+    this.getSqlStatementFactory = mappings =>{
+        Validator.isDefined("Mappings to DB Columns", mappings);
         return new SqlStatementFactory(mappings);
     };
 }
