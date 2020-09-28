@@ -7,7 +7,7 @@ function DataSourceService(){
     this.getDatabaseConnection = (filePath, verbose) =>{
         if(!_db) {
             let options = {};
-            if(verbose) options.verbose = verbose;
+            if(verbose) options.verbose = console.log;
             _db = new Database(filePath, options);
             process.on('exit', () => _db.close());
         }
