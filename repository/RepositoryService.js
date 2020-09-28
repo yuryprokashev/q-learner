@@ -1,19 +1,13 @@
 const RepositoryBuilder = require("./Repository").Builder;
 module.exports = RepositoryService;
 
-function RepositoryService(gatewayService, factoryService){
-
+function RepositoryService(gwConfig, gatewayService, factoryService){
     let _environmentRepository;
     this.getEnvironmentRepository = () =>{
         if(_environmentRepository) return _environmentRepository;
-        const ENVIRONMENT_MAPPINGS = [
-            ["id", "id"], ["symbol", "symbol"], ["createdAt", "created"],
-            ["parentId", "parent_id"], ["parameterName", "name"],
-            ["parameterValue", "value"]
-        ];
         let environmentFactory = factoryService.getEnvironmentFactory();
-        let environmentViewReader = gatewayService.getEnvironmentReader();
-        let sqlStatementFactory = factoryService.getSqlStatementFactory(ENVIRONMENT_MAPPINGS);
+        let environmentViewReader = gatewayService.getSqlReader(gwConfig.environment.reader.definition);
+        let sqlStatementFactory = factoryService.getSqlStatementFactory(gwConfig.environment.reader.mappings);
         _environmentRepository = new RepositoryBuilder()
             .setReader(environmentViewReader)
             .setEntityFactory(environmentFactory)
