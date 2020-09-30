@@ -14,8 +14,8 @@ function SqlTableReader(db, tableDefinition){
     const SELECT_ALL = `select * from (${tableDefinition})`;
     /**
      *
-     * @param where {string} - the sql formatted string starting from 'where'
-     * @example 'where name like '%Jon%' and age >= 30'
+     * @param where {string} - the sql formatted string that follows 'where' clause.
+     * @example "name like '%Jon%' and age >= 30"
      * @returns {*}
      */
     this.read = where =>{
