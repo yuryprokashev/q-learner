@@ -1,3 +1,4 @@
+const Validator = require("../basic/Validator");
 module.exports.Builder = CriteriaBuilder;
 
 /**
@@ -66,5 +67,22 @@ function Criteria(criteria, conjunctions){
             let conjunction = conjunctions[index - 1];
             return `${conjunction || ""} ${criterion.asSql(mappings)}`;
         }).join(" ");
+    };
+
+    /**
+     * Converts the Criteria to the simple object with key value pairs.<br>
+     * Fails, when the Criteria has "or" conjunctions.
+     * Fails, when at least one Criterion operator is not "equal"
+     * @returns {Object}
+     */
+    this.asObject = ()=>{
+        Validator.mustBeTrue(!conjunctions.includes("or"), "Criteria containing OR conjunctions can not be converted to Object form.")
+        const result = {};
+        criteria.forEach(criterion =>{
+            Validator.mustBeTrue(criterion.getOperatorExpression().name() === "equal", "Criterion with operator name other than 'equal' can not be converted to Object form.");
+            const key = criterion.getFieldName();
+            result[key] = criterion.expected();
+        });
+        return result;
     };
 }

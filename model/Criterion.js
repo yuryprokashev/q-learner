@@ -69,6 +69,9 @@ function Criterion(objectFieldName, operatorExpression) {
     this.getFieldName = ()=>{
         return objectFieldName;
     };
+    this.getOperatorExpression = ()=>{
+        return operatorExpression;
+    };
     this.expected = ()=>{
         return operatorExpression.expected();
     };

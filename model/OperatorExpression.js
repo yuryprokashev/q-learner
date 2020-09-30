@@ -78,6 +78,7 @@ function Equal(expected) {
     this.expected = ()=>{
         return expected;
     };
+    this.name = getConstructorName.bind(this);
 }
 function Gte(expected){
     this.evaluate = actual =>{
@@ -89,6 +90,7 @@ function Gte(expected){
     this.expected = ()=>{
         return expected;
     };
+    this.name = getConstructorName.bind(this);
 }
 function Gt(expected) {
     this.evaluate = actual =>{
@@ -100,6 +102,7 @@ function Gt(expected) {
     this.expected = ()=>{
         return expected;
     };
+    this.name = getConstructorName.bind(this);
 }
 function Lte(expected){
     this.evaluate = actual =>{
@@ -111,6 +114,7 @@ function Lte(expected){
     this.expected = ()=>{
         return expected;
     };
+    this.name = getConstructorName.bind(this);
 }
 function Lt(expected) {
     this.evaluate = actual =>{
@@ -122,6 +126,7 @@ function Lt(expected) {
     this.expected = ()=>{
         return expected;
     };
+    this.name = getConstructorName.bind(this);
 }
 function Not(operator){
     this.evaluate = actual =>{
@@ -130,6 +135,7 @@ function Not(operator){
     this.asSql = ()=>{
         return operator.constructor.name === "Equal" ? ` not ${sqlNumberOrString(operator.expected())}` : ` not${operator.asSql()}`;
     };
+    this.name = getConstructorName.bind(this);
 }
 function Match(expected) {
     this.evaluate = actual =>{
@@ -147,6 +153,7 @@ function Match(expected) {
     this.expected = ()=>{
         return expected;
     };
+    this.name = getConstructorName.bind(this);
 }
 function Contains(expected) {
     this.evaluate = actual =>{
@@ -158,7 +165,11 @@ function Contains(expected) {
     this.expected = ()=>{
         return expected;
     };
+    this.name = getConstructorName.bind(this);
 }
 function sqlNumberOrString(value){
     return `${typeof value === "string" ? `'${value}'` : value}`;
+}
+function getConstructorName(){
+    return this.constructor.name.toLowerCase();
 }

@@ -3,21 +3,21 @@ const CriteriaBuilder = require("../model/Criteria").Builder;
 module.exports = ()=>{
     QUnit.module("criterion");
     QUnit.test("Criterion for value field", assert =>{
-        let c = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
-        let obj1 = {authorName: "yprokashev"};
-        let obj2 = {name: "yprokashev"};
-        let obj3 = {authorName: "manimaran.selvan"};
+        const c = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
+        const obj1 = {authorName: "yprokashev"};
+        const obj2 = {name: "yprokashev"};
+        const obj3 = {authorName: "manimaran.selvan"};
         assert.strictEqual(c.evaluate(obj1), true);
         assert.strictEqual(c.evaluate(obj2), false);
         assert.strictEqual(c.evaluate(obj3), false);
-        let map = new Map([["authorName", "username"]]);
+        const map =[["authorName", "username"]];
         assert.strictEqual(c.asSql(map), "username = 'yprokashev'");
     });
     QUnit.test("Criterion for function field", assert =>{
-        let c = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
-        let obj1 = {authorName: ()=> {return "yprokashev"}};
-        let obj2 = {name: ()=>{return "yprokashev"}};
-        let obj3 = {authorName: ()=>{"manimaran.selvan"}};
+        const c = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
+        const obj1 = {authorName: ()=> {return "yprokashev"}};
+        const obj2 = {name: ()=>{return "yprokashev"}};
+        const obj3 = {authorName: ()=>{"manimaran.selvan"}};
         assert.strictEqual(c.evaluate(obj1), true);
         assert.strictEqual(c.evaluate(obj2), false);
         assert.strictEqual(c.evaluate(obj3), false);
@@ -25,39 +25,41 @@ module.exports = ()=>{
 
     QUnit.module("criteria");
     QUnit.test("Criterion1 AND Criterion2", assert =>{
-        let c1 = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
-        let c2 = new CriterionBuilder().setFieldName("roleName").setExpectedValue("TPM").not().build();
-        let criteria1 = new CriteriaBuilder(c1).and(c2).build();
-        let obj1 = {authorName: "yprokashev", roleName: "TPM"};
-        let obj2 = {authorName: "yprokashev", roleName: "VP"};
-        let obj3 = {authorName: "manimaran.selvan", roleName: "VP"};
+        const c1 = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
+        const c2 = new CriterionBuilder().setFieldName("roleName").setExpectedValue("TPM").not().build();
+        const criteria1 = new CriteriaBuilder(c1).and(c2).build();
+        const obj1 = {authorName: "yprokashev", roleName: "TPM"};
+        const obj2 = {authorName: "yprokashev", roleName: "VP"};
+        const obj3 = {authorName: "manimaran.selvan", roleName: "VP"};
 
         assert.strictEqual(criteria1.evaluate(obj1), false);
         assert.strictEqual(criteria1.evaluate(obj2), true);
         assert.strictEqual(criteria1.evaluate(obj3), false);
+        assert.strictEqual(criteria1.asObject().authorName, "yprokashev");
+        assert.strictEqual(criteria1.asObject().roleName, "TPM");
     });
     QUnit.test("Criterion1 OR Criterion2", assert =>{
-        let c1 = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
-        let c2 = new CriterionBuilder().setFieldName("roleName").setExpectedValue("TPM").not().build();
-        let criteria1 = new CriteriaBuilder(c1).or(c2).build();
-        let obj1 = {authorName: "yprokashev", roleName: "TPM"};
-        let obj2 = {authorName: "yprokashev", roleName: "VP"};
-        let obj3 = {authorName: "manimaran.selvan", roleName: "TPM"};
+        const c1 = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
+        const c2 = new CriterionBuilder().setFieldName("roleName").setExpectedValue("TPM").not().build();
+        const criteria1 = new CriteriaBuilder(c1).or(c2).build();
+        const obj1 = {authorName: "yprokashev", roleName: "TPM"};
+        const obj2 = {authorName: "yprokashev", roleName: "VP"};
+        const obj3 = {authorName: "manimaran.selvan", roleName: "TPM"};
 
         assert.strictEqual(criteria1.evaluate(obj1), true);
         assert.strictEqual(criteria1.evaluate(obj2), true);
         assert.strictEqual(criteria1.evaluate(obj3), false);
     });
     QUnit.test("Criterion1 OR Criterion2 AND Criterion 3", assert =>{
-        let c1 = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
-        let c2 = new CriterionBuilder().setFieldName("roleName").setExpectedValue("TPM").not().build();
-        let c3 = new CriterionBuilder().setExpectedValue(39).gte().setFieldName("age").build();
-        let criteria1 = new CriteriaBuilder(c1).or(c2).and(c3).build();
-        let obj1 = {authorName: "yprokashev", roleName: "TPM", age: 40};
-        let obj2 = {authorName: "yprokashev", roleName: "VP", age: 40};
-        let obj3 = {authorName: "manimaran.selvan", roleName: "TPM", age: 31};
-        let obj4 = {authorName: "manimaran.selvan", roleName: "VP", age: 31};
-        let obj5= {authorName: "manimaran.selvan", roleName: "VP", age: 40};
+        const c1 = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
+        const c2 = new CriterionBuilder().setFieldName("roleName").setExpectedValue("TPM").not().build();
+        const c3 = new CriterionBuilder().setExpectedValue(39).gte().setFieldName("age").build();
+        const criteria1 = new CriteriaBuilder(c1).or(c2).and(c3).build();
+        const obj1 = {authorName: "yprokashev", roleName: "TPM", age: 40};
+        const obj2 = {authorName: "yprokashev", roleName: "VP", age: 40};
+        const obj3 = {authorName: "manimaran.selvan", roleName: "TPM", age: 31};
+        const obj4 = {authorName: "manimaran.selvan", roleName: "VP", age: 31};
+        const obj5= {authorName: "manimaran.selvan", roleName: "VP", age: 40};
 
         // c1 = true, c2 = false, c3 = true. true or false and true => true or false = true, then true and true = true.
         assert.strictEqual(criteria1.evaluate(obj1), true);
@@ -69,5 +71,26 @@ module.exports = ()=>{
         assert.strictEqual(criteria1.evaluate(obj4), false);
         // c1 = false, c2 = true, c3 = true. false or true and true => true.
         assert.strictEqual(criteria1.evaluate(obj5), true);
+    });
+    QUnit.test("Criteria with OR conjunction can noe be converted to Object", assert =>{
+        const c1 = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
+        const c2 = new CriterionBuilder().setFieldName("roleName").setExpectedValue("TPM").not().build();
+        const criteria1 = new CriteriaBuilder(c1).or(c2).build();
+        try {
+            criteria1.asObject();
+        } catch (err){
+            assert.strictEqual(err.message.includes("Criteria containing OR conjunctions can not be converted to Object form"), true);
+        }
+    })
+
+    QUnit.test("Criteria that has Criterion with operator name other than 'equal' can not be converted to Object", assert =>{
+        const c1 = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
+        const c2 = new CriterionBuilder().setFieldName("roleName").setExpectedValue("TPM").contains().build();
+        const criteria1 = new CriteriaBuilder(c1).and(c2).build();
+        try {
+            criteria1.asObject();
+        } catch (err){
+            assert.strictEqual(err.message.includes("Criterion with operator name other than 'equal' can not be converted to Object form"), true)
+        }
     });
 }
