@@ -7,6 +7,7 @@ const GatewayService = require("../gateway/GatewayService");
 const ConfigService = require("../config/ConfigService");
 const RepositoryService = require("../repository/RepositoryService");
 const SqlTableWriter = require("../gateway/SqlTableWriter");
+const SqlTransactionWriter = require("../gateway/SqlTransactionWriter");
 
 module.exports = TestEnvironment;
 function TestEnvironment(){
@@ -22,5 +23,8 @@ function TestEnvironment(){
     this.factoryService = _factories;
     const envFile = _dataSources.getFile(_configService.dataSource().envRecordsCsv);
     this.environmentRecordsGateway = new CsvTableGateway(envFile.getContent());
-    this.sqlWriter = new SqlTableWriter(this.db, "tests");
+    const testOrderWriter = new SqlTableWriter(this.db, "test_orders", "id, symbol");
+    this.testOrderWriter = testOrderWriter;
+    const testParamTableWriter = new SqlTableWriter(this.db, "test_params", "id, order_id, value");
+    this.testOrderTransactionWriter = new SqlTransactionWriter(this.db, [testOrderWriter, testParamTableWriter])
 }

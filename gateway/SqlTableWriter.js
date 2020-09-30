@@ -1,15 +1,16 @@
 module.exports = SqlTableWriter;
 
-function SqlTableWriter(db, tableName){
+function SqlTableWriter(db, tableName, columns){
+    this.getTableName = ()=>{
+        return tableName;
+    };
     /**
      *
-     * @param columns {string} - the sql formatted string representing column names.
-     * @example id,symbol,reward
      * @param values {any[]} - the array of the values to be inserted
      * @example [123, "MSFT", 0.0029]
      * @returns {{id: any}}
      */
-    this.insert = (columns, values) =>{
+    this.insert = values =>{
         const valueTemplate = values.map(str=>{
             return "?";
         }).join(", ");

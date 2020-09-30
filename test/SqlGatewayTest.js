@@ -2,24 +2,42 @@ module.exports = testEnv =>{
     QUnit.module("sql-gateway", {
         before: ()=>{
             testEnv.db.prepare(`
-                    create table tests
+                    create table test_orders
                     (
                         id     text not null
                             constraint tests_pk
                                 primary key,
-                        symbol text not null,
-                        reward real not null
+                        symbol text not null
+                    )`
+            ).run();
+            testEnv.db.prepare(`
+                    create table test_params
+                    (
+                        id     text not null
+                            constraint tests_pk
+                                primary key,
+                        order_id text not null,
+                        value integer not null
                     )`
             ).run();
         },
         after: ()=>{
-            testEnv.db.prepare("drop table if exists tests").run();
+            testEnv.db.prepare("drop table if exists test_orders").run();
+            testEnv.db.prepare("drop table if exists test_params").run();
         }
     });
     QUnit.test("SqlTableWriter can insert one row into the table", assert =>{
-        const columns = "id,symbol,reward";
-        const values = [1,"MSFT", 0.002];
-        const result = testEnv.sqlWriter.insert(columns, values);
+        const values = [1,"MSFT"];
+        const result = testEnv.testOrderWriter.insert(values);
         assert.strictEqual(result.id, 1);
+    });
+    QUnit.test("SqlTransactionWriter can insert 3 rows into 2 tables", assert =>{
+        const values = [[2, "MSFT"], [1,2,-0.004], [2,2, 0.05]];
+        const tableNames = ["test_orders", "test_params", "test_params"];
+        const result = testEnv.testOrderTransactionWriter.insert(tableNames, values);
+
+        assert.strictEqual(result[0].id, 2);
+        assert.strictEqual(result[1].id, 1);
+        assert.strictEqual(result[2].id, 2);
     });
 };
