@@ -3,6 +3,7 @@ const CriteriaTest = require("./CriteriaTest");
 const EnvironmentRepositoryTest = require("./EnvironmentRepositoryTest");
 const DbTest = require("./DbTest");
 const VirtualOrderTest = require("./VirtualOrderTest");
+const SqlGatewayTest = require("./SqlGatewayTest");
 
 const TestEnvironment = require("./TestEnvironment");
 const testEnvironment = new TestEnvironment();
@@ -11,3 +12,4 @@ CriteriaTest();
 EnvironmentRepositoryTest(testEnvironment);
 DbTest(testEnvironment);
 VirtualOrderTest(testEnvironment);
+SqlGatewayTest(testEnvironment);
