@@ -35,8 +35,6 @@ module.exports = ()=>{
         assert.strictEqual(criteria1.evaluate(obj1), false);
         assert.strictEqual(criteria1.evaluate(obj2), true);
         assert.strictEqual(criteria1.evaluate(obj3), false);
-        assert.strictEqual(criteria1.asObject().authorName, "yprokashev");
-        assert.strictEqual(criteria1.asObject().roleName, "TPM");
     });
     QUnit.test("Criterion1 OR Criterion2", assert =>{
         const c1 = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
@@ -72,7 +70,14 @@ module.exports = ()=>{
         // c1 = false, c2 = true, c3 = true. false or true and true => true.
         assert.strictEqual(criteria1.evaluate(obj5), true);
     });
-    QUnit.test("Criteria with OR conjunction can noe be converted to Object", assert =>{
+    QUnit.test("Criteria with AND conjunctions and only equal operators can be converted to Object", assert =>{
+        const c1 = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
+        const c2 = new CriterionBuilder().setFieldName("roleName").setExpectedValue("TPM").build();
+        const criteria1 = new CriteriaBuilder(c1).and(c2).build();
+        assert.strictEqual(criteria1.asObject().authorName, "yprokashev");
+        assert.strictEqual(criteria1.asObject().roleName, "TPM");
+    })
+    QUnit.test("Criteria with OR conjunction can not be converted to Object", assert =>{
         const c1 = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
         const c2 = new CriterionBuilder().setFieldName("roleName").setExpectedValue("TPM").not().build();
         const criteria1 = new CriteriaBuilder(c1).or(c2).build();
