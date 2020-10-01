@@ -1,3 +1,4 @@
+const CriteriaFactory = require("../factory/CriteriaFactory");
 const CriterionBuilder = require("../model/Criterion").Builder;
 const CriteriaBuilder = require("../model/Criteria").Builder;
 module.exports = ()=>{
@@ -23,7 +24,17 @@ module.exports = ()=>{
         assert.strictEqual(c.evaluate(obj3), false);
     });
 
-    QUnit.module("criteria");
+    QUnit.module("criteria", {
+        before: ()=>{
+            this.criteriaFactory = new CriteriaFactory();
+        }
+    });
+    QUnit.test("Can be produced from the plain object", assert =>{
+        const sourceObj = {authorName: "yprokashev", roleName: "TPM"};
+        const criteria1 = this.criteriaFactory.fromObject(sourceObj);
+        const targetObj = {authorName: "yprokashev", roleName: "TPM"};
+        assert.strictEqual(criteria1.evaluate(targetObj), true);
+    });
     QUnit.test("Criterion1 AND Criterion2", assert =>{
         const c1 = new CriterionBuilder().setFieldName("authorName").setExpectedValue("yprokashev").eq().build();
         const c2 = new CriterionBuilder().setFieldName("roleName").setExpectedValue("TPM").not().build();
