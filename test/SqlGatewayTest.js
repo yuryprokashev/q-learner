@@ -27,14 +27,16 @@ module.exports = testEnv =>{
         }
     });
     QUnit.test("SqlTableWriter can insert one row into the table", assert =>{
-        const values = [1,"MSFT"];
-        const result = testEnv.testOrderWriter.insert(values);
+        const row = [1,"MSFT"];
+        const result = testEnv.testOrderWriter.insertRow(row);
         assert.strictEqual(result.id, 1);
     });
     QUnit.test("SqlTransactionWriter can insert 3 rows into 2 tables", assert =>{
-        const values = [[2, "MSFT"], [1,2,-0.004], [2,2, 0.05]];
-        const tableNames = ["test_orders", "test_params", "test_params"];
-        const result = testEnv.testOrderTransactionWriter.insert(tableNames, values);
+        const transactionStatements = [
+            {table: "test_orders", rows: [[2, "MSFT"]]},
+            {table: "test_params", rows: [[1,2,-0.004], [2,2, 0.05]]}
+            ];
+        const result = testEnv.testOrderTransactionWriter.insert(transactionStatements);
 
         assert.strictEqual(result[0].id, 2);
         assert.strictEqual(result[1].id, 1);
