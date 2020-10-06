@@ -4,7 +4,7 @@ module.exports = SqliteDatabaseAction;
 /**
  * Stateless Action implementation that allows to execute multiple SQL statements against the SQLite database
  * in a single transaction.<br>
- * Action opens the db connection and closes it when done.<br>
+ * Action opens the db connection and closes it when the statement batch is executed.<br>
  * Client has to provide the full context, describing the SQLite database file to call and the SQL statements to execute.
  * You can read and write in the single action.
  * @constructor
