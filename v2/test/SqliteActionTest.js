@@ -1,5 +1,5 @@
 const Database = require("better-sqlite3");
-const SqlDatabaseAction = require("../action/SqliteAction");
+const SqliteAction = require("../action/SqliteAction");
 module.exports = ()=>{
     QUnit.module("sql-lite-database-action", {
         before: ()=>{
@@ -29,11 +29,15 @@ module.exports = ()=>{
                     "select * from test_orders"
                 ]
             };
-            this.reasWriteContext ={
+            this.readWriteContext ={
                 filePath: dbFilePath,
                 verbose: true,
                 statements: [
-                    "insert into test_orders (id, symbol) values(3, 'MSFT')",
+                    "insert into test_orders (id, symbol) values(3, 'MSFT'), (4, 'MSFT')",
+                    "select * from test_orders",
+                    "update test_orders set symbol='PINS' where id in (1,2)",
+                    "select * from test_orders",
+                    "delete from test_orders where id in (1,2)",
                     "select * from test_orders"
                 ]
             }
@@ -48,32 +52,29 @@ module.exports = ()=>{
         const actionResponse = selectAction.execute(this.insertContext);
         console.log(JSON.stringify(actionResponse));
         assert.strictEqual(actionResponse.length, 2);
-        actionResponse.filter(r => r.index === 0).forEach(r=>{
-            assert.strictEqual(r.result[0].lastInsertRowid, 1);
-        });
-        actionResponse.filter(r => r.index === 1).forEach(r=>{
-            assert.strictEqual(r.result[0].lastInsertRowid, 2);
-        });
+        const [result1, result2] = actionResponse;
+        assert.strictEqual(result1.lastRowId, 1);
+        assert.strictEqual(result2.lastRowId, 2);
     });
     QUnit.test("Can execute select statements", assert =>{
         const selectAction = new SqliteAction();
         const actionResponse = selectAction.execute(this.selectContext);
         console.log(JSON.stringify(actionResponse));
         assert.strictEqual(actionResponse.length, 1);
-        actionResponse.filter(r=> r.index === 0).forEach((r) =>{
-            assert.strictEqual(r.result[0].symbol, "MSFT");
-        });
+        assert.strictEqual(actionResponse[0].records[0].symbol, "MSFT");
     });
     QUnit.test("Can read and write in the single action", assert =>{
         const readWriteAction = new SqliteAction();
-        const actionResponse = readWriteAction.execute(this.reasWriteContext);
+        const actionResponse = readWriteAction.execute(this.readWriteContext);
         console.log(JSON.stringify(actionResponse));
-        assert.strictEqual(actionResponse.length, 2);
-        actionResponse.filter(r=> r.index === 1).forEach(r=>{
-            assert.strictEqual(r.result[0].symbol, "MSFT");
-        });
-        actionResponse.filter(r=> r.index === 0).forEach(r=>{
-            assert.strictEqual(r.result[0].lastInsertRowid, 3);
-        });
+        assert.strictEqual(actionResponse.length, 6);
+        const [result1, result2, result3, result4, result5, result6] = actionResponse;
+        assert.strictEqual(result1.lastRowId, 4);
+        assert.strictEqual(result2.records.length, 4);
+        assert.strictEqual(result2.records[0].symbol, "MSFT");
+        assert.strictEqual(result3.changes, 2);
+        assert.strictEqual(result4.records[0].symbol, "PINS");
+        assert.strictEqual(result5.changes, 2);
+        assert.strictEqual(result6.records[0].symbol, "MSFT");
     });
 }

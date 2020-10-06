@@ -1,4 +1,5 @@
 const Database = require("better-sqlite3");
+const SqliteActionContext = require("../model/SqliteActionContext");
 module.exports = SqliteAction;
 
 /**
@@ -12,11 +13,11 @@ module.exports = SqliteAction;
 function SqliteAction(){
     /**
      *
-     * @param actionContext{Object}
-     * @param actionContext.filePath {string} - full path to the database file.
-     * @param [actionContext.verbose=false] {boolean} - set if you need logging the statements to the console.
-     * @param actionContext.statements {string[]} - the set of SQL statements to execute.
-     * @returns {StatementExecutionResult[]}
+     * @param actionContext{SqliteActionContext}
+     * @returns {Object[]} the array of statement execution result objects. <br>
+     * Statement execution result object for select statement contains array of records in 'records' property.
+     * Statement execution result object for update, delete contains the changes count.
+     * Statement execution result object for insert contains the changes count and the id of the last inserted row.
      */
     this.execute = actionContext =>{
         const options = {};
@@ -26,8 +27,7 @@ function SqliteAction(){
             return statements.map((statement, index) =>{
                 const dbStatement = db.prepare(statement);
                 const dbStatementResponse =  isStatement("select", statement) ? dbStatement.all() : dbStatement.run();
-                const result = Array.isArray(dbStatementResponse) ? dbStatementResponse : [dbStatementResponse];
-                return new StatementExecutionResult(index, result);
+                return StatementResponse(statement, dbStatementResponse);
             });
         })(actionContext.statements);
         db.close();
@@ -35,17 +35,18 @@ function SqliteAction(){
     };
 }
 
-/**
- *
- * @param index{number} - the sequential index of the statement in the statement batch
- * @param result {Array} - the result of the statement execution
- * @constructor
- */
-function StatementExecutionResult(index, result){
-    this.index = index;
-    this.result = result;
-}
-
 function isStatement(type, statement){
     return statement.toLowerCase().indexOf(type.toLowerCase()) === 0;
+}
+function StatementResponse(statement, dbStatementResponse){
+    const result = {};
+    if(isStatement("update", statement) || isStatement("delete", statement)) result.changes = dbStatementResponse.changes;
+    if(isStatement("insert", statement)) {
+        result.changes = dbStatementResponse.changes;
+        result.lastRowId = dbStatementResponse.lastInsertRowid;
+    }
+    if(isStatement("select", statement)){
+        result.records = dbStatementResponse;
+    }
+    return result;
 }
