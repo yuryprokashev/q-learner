@@ -1,5 +1,5 @@
 const Database = require("better-sqlite3");
-const SqlDatabaseAction = require("../action/SqliteDatabaseAction");
+const SqlDatabaseAction = require("../action/SqliteAction");
 module.exports = ()=>{
     QUnit.module("sql-lite-database-action", {
         before: ()=>{
@@ -44,7 +44,7 @@ module.exports = ()=>{
         }
     });
     QUnit.test("Can execute insert statements", assert =>{
-        const selectAction = new SqlDatabaseAction();
+        const selectAction = new SqliteAction();
         const actionResponse = selectAction.execute(this.insertContext);
         console.log(JSON.stringify(actionResponse));
         assert.strictEqual(actionResponse.length, 2);
@@ -56,7 +56,7 @@ module.exports = ()=>{
         });
     });
     QUnit.test("Can execute select statements", assert =>{
-        const selectAction = new SqlDatabaseAction();
+        const selectAction = new SqliteAction();
         const actionResponse = selectAction.execute(this.selectContext);
         console.log(JSON.stringify(actionResponse));
         assert.strictEqual(actionResponse.length, 1);
@@ -65,7 +65,7 @@ module.exports = ()=>{
         });
     });
     QUnit.test("Can read and write in the single action", assert =>{
-        const readWriteAction = new SqlDatabaseAction();
+        const readWriteAction = new SqliteAction();
         const actionResponse = readWriteAction.execute(this.reasWriteContext);
         console.log(JSON.stringify(actionResponse));
         assert.strictEqual(actionResponse.length, 2);

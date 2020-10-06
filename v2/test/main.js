@@ -1,5 +1,5 @@
-const SqlDatabaseActionTest = require("./SqliteDatabaseActionTest");
+const SqliteActionTest = require("./SqliteActionTest");
 const BatchExecutorTest = require("./BatchExecutorTest");
 
 BatchExecutorTest();
-SqlDatabaseActionTest();
+SqliteActionTest();

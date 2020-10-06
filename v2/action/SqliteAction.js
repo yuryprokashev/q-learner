@@ -1,5 +1,5 @@
 const Database = require("better-sqlite3");
-module.exports = SqliteDatabaseAction;
+module.exports = SqliteAction;
 
 /**
  * Stateless Action implementation that allows to execute multiple SQL statements against the SQLite database
@@ -9,7 +9,7 @@ module.exports = SqliteDatabaseAction;
  * You can read and write in the single action.
  * @constructor
  */
-function SqliteDatabaseAction(){
+function SqliteAction(){
     /**
      *
      * @param actionContext{Object}
