@@ -1,5 +1,6 @@
 const Database = require("better-sqlite3");
 const SqliteActionContext = require("../model/SqliteActionContext");
+const Validator = require("../../basic/Validator");
 module.exports = SqliteAction;
 
 /**
@@ -7,7 +8,6 @@ module.exports = SqliteAction;
  * in a single transaction.<br>
  * Action opens the db connection and closes it when the statement batch is executed.<br>
  * Client has to provide the full context, describing the SQLite database file to call and the SQL statements to execute.
- * You can read and write in the single action.
  * @constructor
  */
 function SqliteAction(){
@@ -15,7 +15,6 @@ function SqliteAction(){
      *
      * @param actionContext{SqliteActionContext}
      * @returns {Object[]} the array of statement execution result objects. <br>
-     * Statement execution result object for select statement contains array of records in 'records' property.
      * Statement execution result object for update, delete contains the changes count.
      * Statement execution result object for insert contains the changes count and the id of the last inserted row.
      */
@@ -25,8 +24,9 @@ function SqliteAction(){
         const db = new Database(actionContext.filePath, options);
         const dbResponse = db.transaction(statements =>{
             return statements.map((statement, index) =>{
+                Validator.mustBeTrue(!isStatement("select", statement), "Action writes. It can not read.");
                 const dbStatement = db.prepare(statement);
-                const dbStatementResponse =  isStatement("select", statement) ? dbStatement.all() : dbStatement.run();
+                const dbStatementResponse =  dbStatement.run();
                 return StatementResponse(statement, dbStatementResponse);
             });
         })(actionContext.statements);
@@ -44,9 +44,6 @@ function StatementResponse(statement, dbStatementResponse){
     if(isStatement("insert", statement)) {
         result.changes = dbStatementResponse.changes;
         result.lastRowId = dbStatementResponse.lastInsertRowid;
-    }
-    if(isStatement("select", statement)){
-        result.records = dbStatementResponse;
     }
     return result;
 }

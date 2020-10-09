@@ -19,25 +19,16 @@ module.exports = ()=>{
                 verbose: true,
                 statements: [
                     "insert into test_orders (id, symbol) values (1, 'MSFT')",
-                    "insert into test_orders (id, symbol) values (2, 'MSFT')"
-                ]
-            };
-            this.selectContext = {
-                filePath: dbFilePath,
-                verbose: true,
-                statements: [
-                    "select * from test_orders"
+                    "insert into test_orders (id, symbol) values (2, 'MSFT')",
+                    "insert into test_orders (id, symbol) values(3, 'MSFT'), (4, 'MSFT'), (5, 'PINS')",
+                    "update test_orders set symbol='PINS' where id in (1,2,3)",
+                    "delete from test_orders where symbol='MSFT'"
                 ]
             };
             this.readWriteContext ={
                 filePath: dbFilePath,
                 verbose: true,
                 statements: [
-                    "insert into test_orders (id, symbol) values(3, 'MSFT'), (4, 'MSFT')",
-                    "select * from test_orders",
-                    "update test_orders set symbol='PINS' where id in (1,2)",
-                    "select * from test_orders",
-                    "delete from test_orders where id in (1,2)",
                     "select * from test_orders"
                 ]
             }
@@ -51,30 +42,27 @@ module.exports = ()=>{
         const selectAction = new SqliteAction();
         const actionResponse = selectAction.execute(this.insertContext);
         console.log(JSON.stringify(actionResponse));
-        assert.strictEqual(actionResponse.length, 2);
-        const [result1, result2] = actionResponse;
+        const [result1, result2, result3, result4, result5] = actionResponse;
+        assert.strictEqual(actionResponse.length, 5);
         assert.strictEqual(result1.lastRowId, 1);
+        assert.strictEqual(result1.changes, 1);
+
         assert.strictEqual(result2.lastRowId, 2);
+        assert.strictEqual(result2.changes, 1);
+
+        assert.strictEqual(result3.lastRowId, 5);
+        assert.strictEqual(result3.changes, 3);
+
+        assert.strictEqual(result4.changes, 3);
+
+        assert.strictEqual(result5.changes, 1);
     });
-    QUnit.test("Can execute select statements", assert =>{
-        const selectAction = new SqliteAction();
-        const actionResponse = selectAction.execute(this.selectContext);
-        console.log(JSON.stringify(actionResponse));
-        assert.strictEqual(actionResponse.length, 1);
-        assert.strictEqual(actionResponse[0].records[0].symbol, "MSFT");
-    });
-    QUnit.test("Can read and write in the single action", assert =>{
+    QUnit.test("Can not read. Only write.", assert =>{
         const readWriteAction = new SqliteAction();
-        const actionResponse = readWriteAction.execute(this.readWriteContext);
-        console.log(JSON.stringify(actionResponse));
-        assert.strictEqual(actionResponse.length, 6);
-        const [result1, result2, result3, result4, result5, result6] = actionResponse;
-        assert.strictEqual(result1.lastRowId, 4);
-        assert.strictEqual(result2.records.length, 4);
-        assert.strictEqual(result2.records[0].symbol, "MSFT");
-        assert.strictEqual(result3.changes, 2);
-        assert.strictEqual(result4.records[0].symbol, "PINS");
-        assert.strictEqual(result5.changes, 2);
-        assert.strictEqual(result6.records[0].symbol, "MSFT");
+        try {
+            const actionResponse = readWriteAction.execute(this.readWriteContext);
+        } catch (err){
+            assert.strictEqual(err.message.includes("Action writes. It can not read"), true)
+;        }
     });
 }
