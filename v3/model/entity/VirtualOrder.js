@@ -1,11 +1,13 @@
 module.exports.Builder = VirtualOrderBuilder;
+module.exports.Constructor = VirtualOrder;
 
 /**
  *
  * @constructor
  */
 function VirtualOrderBuilder(){
-    let _id, _timeslot, _orderSentEnvironment, _orderExecutedEnvironment, _reward;
+    let _id, _timeslot, _orderSentEnvironment, _orderExecutedEnvironment;
+    const _reward = {};
     this.setId = str =>{
         _id = str;
         return this;
@@ -22,8 +24,8 @@ function VirtualOrderBuilder(){
         _orderExecutedEnvironment = environment;
         return this;
     };
-    this.setReward = reward =>{
-        _reward = reward;
+    this.addReward = (type, value) =>{
+        _reward[type] = value;
         return this;
     };
     this.build = ()=>{
@@ -45,6 +47,9 @@ function VirtualOrderBuilder(){
 function VirtualOrder(id, timeslot, orderSentEnvironment, orderExecutedEnvironment,  reward){
     this.getId = ()=>{
         return id;
+    };
+    this.getSymbol = ()=>{
+        return orderSentEnvironment.getSymbol();
     };
     this.getExecutionDelay = ()=>{
         return orderExecutedEnvironment.getCreatedAt() - orderSentEnvironment.getCreatedAt();

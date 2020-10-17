@@ -1,5 +1,5 @@
 module.exports.Builder = EnvironmentBuilder;
-module.exports.Parameter = Parameter;
+module.exports.Constructor = Environment;
 
 /**
  *
@@ -56,24 +56,5 @@ function Environment(id, created, symbol, params){
     };
     this.getParameter = name =>{
         return paramMap.get(name);
-    };
-}
-
-/**
- *
- * @param id
- * @param name
- * @param value
- * @constructor
- */
-function Parameter(id, name, value){
-    this.getId = ()=>{
-        return id;
-    };
-    this.getName = ()=>{
-        return name;
-    };
-    this.getValue = ()=>{
-        return value;
     };
 }

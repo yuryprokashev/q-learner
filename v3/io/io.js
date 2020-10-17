@@ -1,6 +1,6 @@
 const fs = require("fs");
 const BetterSqlite3 = require("better-sqlite3");
-const File = require("../model/File");
+const File = require("../model/entity/File");
 module.exports = Io;
 
 /**

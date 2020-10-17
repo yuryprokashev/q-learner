@@ -1,5 +1,5 @@
 const ParameterFactory = require("./ParameterFactory");
-const VirtualOrderBuilder = require("../model/VirtualOrder").Builder;
+const VirtualOrderBuilder = require("../model/entity/VirtualOrder").Builder;
 module.exports = VirtualOrderFactory;
 
 function VirtualOrderFactory(){

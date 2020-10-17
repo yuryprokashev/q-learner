@@ -1,4 +1,4 @@
-const Parameter = require("../model/Parameter");
+const Parameter = require("../model/entity/Parameter");
 const Validator = require("../../basic/Validator");
 module.exports = ParameterFactory;
 function ParameterFactory(){

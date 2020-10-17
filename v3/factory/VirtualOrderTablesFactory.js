@@ -1,5 +1,5 @@
-const TableDTO = require("../model/TableDTO");
-const TableRecordDTO = require("../model/TableRecordDTO");
+const TableDTO = require("../model/dto/TableDTO");
+const TableRecordDTO = require("../model/dto/TableRecordDTO");
 const VIRTUAL_ORDERS_COLUMNS = ["Id", "Symbol", "Environment When Sent", "Environment When Executed", "Exec Delay"];
 const VIRTUAL_ORDERS_TYPES = ["String", "String", "String", "String", "Number"];
 const PARAM_COLUMNS = ["Id", "Name", "Value", "Parent Id"];

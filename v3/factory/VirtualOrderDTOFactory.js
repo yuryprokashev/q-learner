@@ -1,4 +1,4 @@
-const VirtualOrderDTO = require("../model/VirtualOrderDTO");
+const VirtualOrderDTO = require("../model/dto/VirtualOrderDTO");
 const ParameterDTOFactory = require("./ParameterDTOFactory");
 module.exports = VirtualOrderDTOFactory;
 function VirtualOrderDTOFactory(){
