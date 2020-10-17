@@ -7,7 +7,7 @@ const VirtualOrderTablesFactory = require("../factory/VirtualOrderTablesFactory"
 const InsertVirtualOrderStatementsFactory = require("../factory/InsertVirtualOrderStatementsFactory");
 
 
-module.exports = ()=>{
+module.exports = (io)=>{
     QUnit.module("virtual-order-transformation", {
         before: ()=>{
             // We don't need env params, since we don't test the Virtual Order Factory.

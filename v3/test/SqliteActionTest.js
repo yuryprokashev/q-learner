@@ -1,11 +1,7 @@
 const SqliteTransaction = require("../io/SqliteTransaction");
-const Io = require("../io/io");
-const ConfigurationApp = require("../apps/ConfigurationApp");
-module.exports = ()=>{
+module.exports = (io)=>{
     QUnit.module("sql-lite-database-action", {
         before: ()=>{
-            const configApp = new ConfigurationApp("test");
-            const io = new Io(configApp);
             const db = io.getDatabase();
             db.prepare(`
                 create table test_orders

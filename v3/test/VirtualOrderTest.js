@@ -2,16 +2,12 @@
 sync parse is used. csv api docs: https://csv.js.org/parse/api/sync/
  */
 const parse = require("csv-parse/lib/sync");
-const Io = require("../io/io");
-const ConfigurationApp = require("../apps/ConfigurationApp");
 const VirtualOrderFactory = require("../factory/VirtualOrderFactory");
 const TimeBucketFactory = require("../factory/TimeBucketFactory");
 const EnvironmentFactory = require("../factory/EnvironmentFactory");
-module.exports = () =>{
+module.exports = (io) =>{
     QUnit.module("virtual-order", {
         before: ()=>{
-            const configApp = new ConfigurationApp("test");
-            const io = new Io(configApp);
             const voFactory = new VirtualOrderFactory();
             const tBucketFactory = new TimeBucketFactory();
             const eFactory = new EnvironmentFactory();
