@@ -1,5 +1,13 @@
+const fs = require("fs");
 const BetterSqlite3 = require("better-sqlite3");
+const File = require("../model/File");
 module.exports = Io;
+
+/**
+ *
+ * @param configApp
+ * @constructor
+ */
 function Io(configApp){
     const dbConfig = configApp.getDbConfig();
     let _db;
@@ -10,5 +18,8 @@ function Io(configApp){
             if(_db.open) _db.close();
         });
         return _db;
+    };
+    this.getFile = filePath =>{
+        return new File(filePath, fs.readFileSync(filePath, "utf8"));
     };
 }
