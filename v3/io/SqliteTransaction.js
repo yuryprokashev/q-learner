@@ -1,7 +1,5 @@
-const Database = require("better-sqlite3");
-const SqliteActionContext = require("../model/SqliteActionContext");
 const Validator = require("../../basic/Validator");
-module.exports = SqliteAction;
+module.exports = SqliteTransaction;
 
 /**
  * Stateless Action implementation that allows to execute multiple SQL statements against the SQLite database
@@ -10,18 +8,17 @@ module.exports = SqliteAction;
  * Client has to provide the full context, describing the SQLite database file to call and the SQL statements to execute.
  * @constructor
  */
-function SqliteAction(){
+function SqliteTransaction(io){
     /**
      *
-     * @param actionContext{SqliteActionContext}
      * @returns {Object[]} the array of statement execution result objects. <br>
      * Statement execution result object for update, delete contains the changes count.
      * Statement execution result object for insert contains the changes count and the id of the last inserted row.
+     * @param actionStatements{string[]}
      */
-    this.execute = actionContext =>{
-        const options = {};
-        if(actionContext.verbose) options.verbose = console.log;
-        const db = new Database(actionContext.filePath, options);
+    this.execute = actionStatements =>{
+        Validator.isDefined("IO", io);
+        const db = io.getDatabase();
         const dbResponse = db.transaction(statements =>{
             return statements.map((statement, index) =>{
                 Validator.mustBeTrue(!isStatement("select", statement), "Action writes. It can not read.");
@@ -29,8 +26,7 @@ function SqliteAction(){
                 const dbStatementResponse =  dbStatement.run();
                 return StatementResponse(statement, dbStatementResponse);
             });
-        })(actionContext.statements);
-        db.close();
+        })(actionStatements);
         return dbResponse;
     };
 }
