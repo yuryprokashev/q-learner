@@ -1,6 +1,6 @@
 const Timeslot = require("../model/Timeslot");
 const TimeBucket = require("../model/TimeBucket");
-const Validator = require("../basic/Validator");
+const Validator = require("../../basic/Validator");
 module.exports = TimeBucketFactory;
 
 function TimeBucketFactory(){
