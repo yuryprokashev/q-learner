@@ -10,6 +10,6 @@ module.exports = (io)=>{
         const start = 1577982720000;
         const end = 1577982721948;
         const environments = this.environmentApp.getByCreatedDate(start, end);
-        assert.strictEqual(environments.length, 286);
+        assert.strictEqual(environments.length, 6);
     });
 };
