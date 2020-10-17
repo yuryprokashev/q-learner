@@ -10,6 +10,7 @@ module.exports = ComputeRewardsRequest;
  * @constructor
  */
 function ComputeRewardsRequest(startDay, dayCount, rewardPeriod, rewardType, step){
+    this.useCaseId = "create-virtual-orders";
     this.start = startDay;
     this.dayCount = dayCount;
     this.rewardPeriod = rewardPeriod;
