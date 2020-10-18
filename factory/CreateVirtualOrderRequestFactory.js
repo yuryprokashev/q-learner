@@ -10,7 +10,7 @@ function CreateVirtualOrderRequestFactory(){
     const DAY_MS = 24 * 60 * MIN_MS;
     /**
      *
-     * @param {ComputeRewardsRequest} userRequest
+     * @param {CreateVirtualOrdersUserRequest} userRequest
      */
     this.create = userRequest =>{
         const userStart = userRequest.start.split("-").map(str => {return parseInt(str);});
