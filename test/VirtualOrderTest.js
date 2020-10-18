@@ -11,7 +11,7 @@ module.exports = (io) =>{
             const voFactory = new VirtualOrderFactory();
             const tBucketFactory = new TimeBucketFactory();
             const eFactory = new EnvironmentFactory();
-            const recordsFile = io.getFile("C:/Users/yuryp/WebstormProjects/q-learner/v3/test/environment-records.csv")
+            const recordsFile = io.getFile("C:/Users/yuryp/WebstormProjects/q-learner/test/environment-records.csv")
 
             const bucketJobConfig = {start: 1577982720000, end: 1577982721948, length: 1000, step: 1000};
             const timeBuckets = tBucketFactory.fromConfig(bucketJobConfig);
