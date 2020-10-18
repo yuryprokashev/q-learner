@@ -18,6 +18,7 @@ function CreateVirtualOrderRequestFactory(){
         const endUtc = startUtc + (userRequest.dayCount + 1) * DAY_MS;
         const period = userRequest.rewardPeriod * MIN_MS;
         const step = userRequest.step ? userRequest.step * MIN_MS : undefined;
-        return new CreateVirtualOrdersRequest(startUtc, endUtc, period, step);
+        const executionDelay = userRequest.executionDelay;
+        return new CreateVirtualOrdersRequest(startUtc, endUtc, period, step, executionDelay);
     };
 }

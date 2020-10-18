@@ -18,7 +18,7 @@ function QLearnerFacade(env){
     const DEFAULT_STEP = 1000;
     /**
      *
-     * @param createOrdersRequest
+     * @param createOrdersRequest{CreateVirtualOrdersRequest}
      * @returns {VirtualOrderDTO[]}
      */
     this.createVirtualOrders = (createOrdersRequest) =>{
@@ -38,7 +38,7 @@ function QLearnerFacade(env){
             });
         });
         return tBuckets.map(bucket =>{
-            return _voFactory.fromTimeBucket(bucket);
+            return _voFactory.fromTimeBucket(bucket, createOrdersRequest.executionDelay);
         }).map(vOrder =>{
             return _voDTOFactory.create(vOrder);
         });
