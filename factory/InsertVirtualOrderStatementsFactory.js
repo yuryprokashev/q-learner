@@ -4,12 +4,12 @@ const VIRTUAL_ORDERS_COLUMNS_MAP = [
 ];
 const SQL_COLUMNS_MAP = [
     ["virtual_orders", "id, symbol, sent_environment_id, executed_environment_id, exec_delay"],
-    ["parameters", "id, name, value, parent_id"]
+    ["virtual_order_parameters", "id, name, value, parent_id"]
 ]
 const PARAM_COLUMNS_MAP = [
     ["id", "Id"], ["name", "Name"], ["value", "Value"], ["parent_id", "Parent Id"]
 ];
-const TABLE_MAP = [["Virtual Orders", "virtual_orders"], ["Parameters", "parameters"]];
+const TABLE_MAP = [["Virtual Orders", "virtual_orders"], ["Parameters", "virtual_order_parameters"]];
 
 module.exports = InsertVirtualOrderStatementsFactory;
 
