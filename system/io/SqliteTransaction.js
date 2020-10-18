@@ -1,4 +1,4 @@
-const Validator = require("../basic/Validator");
+const Validator = require("../../basic/Validator");
 module.exports = SqliteTransaction;
 
 /**

@@ -1,4 +1,4 @@
-const OneToManyMap = require("../basic/OneToManyMap");
+const OneToManyMap = require("../../basic/OneToManyMap");
 const ParameterFactory = require("./ParameterFactory");
 const EnvironmentBuilder = require("../model/entity/Environment").Builder;
 module.exports = EnvironmentFactory;

@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "qunit -r tap test/**/*.js",
+    "test": "qunit -r tap system/test/**/*.js",
     "run": "node main.js"
   },
   "author": "Yury Prokashev",

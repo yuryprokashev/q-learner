@@ -1,4 +1,4 @@
-const CreateVirtualOrderRequestFactory = require("../factory/CreateVirtualOrderRequestFactory");
+const CreateVirtualOrderRequestFactory = require("../system/factory/CreateVirtualOrderRequestFactory");
 module.exports = CreateVirtualOrders;
 function CreateVirtualOrders(qLearner, userRequest){
     /*
