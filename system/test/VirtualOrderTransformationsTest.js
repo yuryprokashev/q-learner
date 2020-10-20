@@ -79,7 +79,7 @@ module.exports = (io)=>{
         const firstTransactionStatements = this.insertStatements[0];
         assert.strictEqual(firstTransactionStatements.length, 3);
         assert.strictEqual(firstTransactionStatements[0], "insert into virtual_orders (id, symbol, sent_environment_id, executed_environment_id, exec_delay) values ('vo-1','MSFT','env-sent-1','env-exec-1',400)");
-        assert.strictEqual(firstTransactionStatements[1], "insert into parameters (id, name, value, parent_id) values ('buy-vo-1','buy',-100,'vo-1')");
-        assert.strictEqual(firstTransactionStatements[2], "insert into parameters (id, name, value, parent_id) values ('sell-vo-1','sell',500,'vo-1')");
+        assert.strictEqual(firstTransactionStatements[1], "insert into virtual_order_parameters (id, name, value, parent_id) values ('buy-vo-1','buy',-100,'vo-1')");
+        assert.strictEqual(firstTransactionStatements[2], "insert into virtual_order_parameters (id, name, value, parent_id) values ('sell-vo-1','sell',500,'vo-1')");
     });
 }
