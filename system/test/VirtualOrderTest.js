@@ -11,7 +11,7 @@ module.exports = (io) =>{
             const voFactory = new VirtualOrderFactory();
             const tBucketFactory = new TimeBucketFactory();
             const eFactory = new EnvironmentFactory();
-            const recordsFile = io.getFile("C:/Users/yuryp/WebstormProjects/q-learner/test/environment-records.csv")
+            const recordsFile = io.getFile("C:/Users/yuryp/WebstormProjects/q-learner/system/test/environment-records.csv")
 
             const bucketJobConfig = {start: 1577982720000, end: 1577982721948, length: 1000, step: 1000};
             const timeBuckets = tBucketFactory.fromConfig(bucketJobConfig);
@@ -35,7 +35,7 @@ module.exports = (io) =>{
         assert.strictEqual(this.timeBuckets[0].getObjects().length > 0, true, "First Time Bucket has 3 environments");
     })
     QUnit.test("getId", assert =>{
-        assert.strictEqual(this.vo.getId(), "v-order-_MSFT-1577982720000-1000-0");
+        assert.strictEqual(this.vo.getId(), "v-order-_MSFT-1577982720000-1-0");
     });
     QUnit.test("getReward", assert =>{
         assert.strictEqual(this.vo.getReward("buy").getValue(), -0.07999999999998408, "Buy Reward is computed correctly");

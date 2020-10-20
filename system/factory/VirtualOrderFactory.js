@@ -30,7 +30,7 @@ function VirtualOrderFactory(){
             .build();
     };
     function _virtualOrderId(symbol, sent, duration, executionDelay){
-        return `v-order-${symbol}-${sent}-${duration}-${executionDelay}`;
+        return `v-order-${symbol}-${sent}-${duration/1000}-${executionDelay}`;
     }
     function _computeReward(environments, executionDelay){
         const reward = {buy: 0, sell: 0};
