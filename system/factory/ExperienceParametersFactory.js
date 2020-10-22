@@ -1,5 +1,7 @@
 const ParameterFactory = require("./ParameterFactory");
 const ExperienceIdFactory = require("./ExperienceIdFactory");
+const ExperienceParameterValueFactory = require("./ExperienceParameterValueFactory");
+const RefSymbolPriceFactory = require("./RefSymbolPriceFactory");
 module.exports = ExperienceParametersFactory;
 function ExperienceParametersFactory(){
     const _paramFactory = new ParameterFactory();
@@ -22,14 +24,14 @@ function ExperienceParametersFactory(){
         Нетрудно заметить, что d-ma-20-10 = - d-ma-10-20 и т.п. То есть, параметров, у которых значение имеет значение не 9, а 6.
          */
         const experienceParameters = [];
-
+        const refSymbolPrice = RefSymbolPriceFactory(refEnvironment);
         currentEnvironment.getParameters().forEach((currentParameter, currentParameterIndex) =>{
             refEnvironment.getParameters().forEach((refParameter, refParameterIndex) =>{
                 if(refParameterIndex >= currentParameterIndex){
                     const paramObject = {
                         parentId: ExperienceIdFactory(currentEnvironment.getId(), refEnvironment.getId()),
                         name: _experienceParameterName(currentParameter.getName(), refParameter.getName()),
-                        value: _experienceParameterValue(currentParameter.getValue(), refParameter.getValue())
+                        value: ExperienceParameterValueFactory(currentParameter.getValue(), refParameter.getValue(), refSymbolPrice)
                     }
                     experienceParameters.push(_paramFactory.fromObject(paramObject));
                 }
@@ -40,8 +42,5 @@ function ExperienceParametersFactory(){
     };
     function _experienceParameterName(currentParameterName, refParameterName){
         return `current-${currentParameterName}-ref-${refParameterName}`;
-    }
-    function _experienceParameterValue(currentParameterValue, refParameterValue){
-        return currentParameterValue - refParameterValue;
     }
 }
