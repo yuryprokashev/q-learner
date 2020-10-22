@@ -15,7 +15,7 @@ module.exports = (io)=>{
     QUnit.test("Can get environment by id", assert =>{
         const environment = this.environmentApp.getById("environment-_MSFT-1577982720000");
         assert.strictEqual(environment.getId(), "environment-_MSFT-1577982720000");
-        assert.strictEqual(environment.getParameter("bid").getValue(), "158.310000000000002274");
+        assert.strictEqual(environment.getParameter("bid").getValue(), 158.310000000000002274);
     });
     QUnit.test("Can get reference environment by current Environment and reference delta T", assert =>{
          const currentEnvironment = this.environmentApp.getById("environment-_MSFT-1577982780476");

@@ -9,14 +9,17 @@ function ParameterFactory(){
      */
     this.fromRecord = record =>{
         _validateRecordInput(record.id, record.name, record.value);
-        return new Parameter(record.id, record.name, Number(record.value).toPrecision(21), record.parent_id);
+        return new Parameter(record.id, record.name, _parameterValue(record.value), record.parent_id);
     };
     this.fromObject = obj =>{
         _validateObjectInput(obj.parentId, obj.name, obj.value);
-        return new Parameter(_parameterId(obj.parentId, obj.name), obj.name, obj.value, obj.parentId);
+        return new Parameter(_parameterId(obj.parentId, obj.name), obj.name, _parameterValue(obj.value), obj.parentId);
     };
     function _parameterId(parentId, name){
         return `${parentId}-${name}`;
+    }
+    function _parameterValue(recordValue){
+        return parseFloat(recordValue);
     }
     function _validateRecordInput(id, name, value){
         Validator.isDefined("Parameter Id", id);
