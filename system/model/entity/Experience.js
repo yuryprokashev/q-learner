@@ -14,8 +14,10 @@ module.exports = Experience;
  */
 function Experience(id, currentEnvironment, referenceEnvironment, parameters, code){
     const _paramMap = new Map();
+    const _paramNames = [];
     parameters.forEach(p=>{
         _paramMap.set(p.getName(), p);
+        _paramNames.push(p.getName());
     });
     this.getId = ()=>{
         return id;
@@ -34,5 +36,8 @@ function Experience(id, currentEnvironment, referenceEnvironment, parameters, co
     };
     this.getCode = ()=>{
         return code;
+    };
+    this.getParameterIndex = name =>{
+        return _paramNames.indexOf(name);
     };
 }
