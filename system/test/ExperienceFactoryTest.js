@@ -1,5 +1,6 @@
 const ExperienceFactory = require("../factory/ExperienceFactory");
 const EnvironmentApp = require("../apps/EnvironmentApp");
+const RefSymbolPriceFactory = require("../factory/RefSymbolPriceFactory");
 module.exports = (io)=>{
     QUnit.module("experience-factory", {
         before: ()=>{
@@ -13,10 +14,14 @@ module.exports = (io)=>{
         this.experience = this.experienceFactory.create(this.currentEnvironment, this.refEnvironment);
         assert.strictEqual(this.experience.getId(), "environment-_MSFT-1577982780476-environment-_MSFT-1577982720779");
     });
-    QUnit.test("The value of experience parameter is Current_Env_Parameter_i - Ref_Env_Parameter_j", assert =>{
+    QUnit.test('Reference Symbol Price is (ask + bid)/2', assert =>{
+        this.refSymbolPrice = RefSymbolPriceFactory(this.refEnvironment);
+        assert.strictEqual(this.refSymbolPrice, 158.349999999999994315658);
+    });
+    QUnit.test("The value of experience parameter is (Current_Env_Parameter_i - Ref_Env_Parameter_j) / Ref_Symbol_Price", assert =>{
         const currentMa10 = this.currentEnvironment.getParameter("ma10");
         const refMa160 = this.refEnvironment.getParameter("ma160");
-        const experienceParameterValue = currentMa10.getValue() - refMa160.getValue();
+        const experienceParameterValue = (currentMa10.getValue() - refMa160.getValue())/this.refSymbolPrice;
         const experienceParameterMa10Ma160 = this.experience.getParameter("current-ma10-ref-ma160");
         assert.strictEqual(experienceParameterMa10Ma160.getValue(), experienceParameterValue);
     })
