@@ -22,8 +22,8 @@ module.exports = (io)=>{
         const currentMa10 = this.currentEnvironment.getParameter("ma10");
         const refMa160 = this.refEnvironment.getParameter("ma160");
         const experienceParameterValue = (currentMa10.getValue() - refMa160.getValue())/this.refSymbolPrice;
-        const experienceParameterMa10Ma160 = this.experience.getParameter("current-ma10-ref-ma160");
-        assert.strictEqual(experienceParameterMa10Ma160.getValue(), experienceParameterValue);
+        this.experienceParameterMa10Ma160 = this.experience.getParameter("current-ma10-ref-ma160");
+        assert.strictEqual(this.experienceParameterMa10Ma160.getValue(), experienceParameterValue);
     })
     QUnit.test("The number of parameters in one experience is SUM(7..1) when Environment parameter count is 7", assert =>{
         /*
@@ -37,5 +37,10 @@ module.exports = (io)=>{
             return acc;
         },0);
         assert.strictEqual(this.experience.getParameters().length, experienceParameterLength);
-    })
+    });
+    QUnit.test("The code of the single experience parameter is this parameter value amplified by 10,000 and truncated", assert=>{
+        const paramIndex = this.experience.getParameterIndex("current-ma10-ref-ma160");
+        const paramCode = this.experience.getCode().split("-")[paramIndex];
+        assert.strictEqual(paramCode, "37");
+    });
 }
