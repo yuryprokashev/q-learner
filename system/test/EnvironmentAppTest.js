@@ -1,9 +1,11 @@
 const EnvironmentApp = require("../apps/EnvironmentApp");
+const SqlStatementApp = require("../apps/SqlStatementApp");
 
 module.exports = (io)=>{
     QUnit.module("environment-app", {
         before: ()=>{
-            this.environmentApp = new EnvironmentApp(io);
+            const sqlStatementApp = new SqlStatementApp(io, "C:/Users/yuryp/WebstormProjects/q-learner/system/sql/");
+            this.environmentApp = new EnvironmentApp(io, sqlStatementApp);
         }
     });
     QUnit.test("Can find environments by created date", assert =>{

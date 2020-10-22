@@ -1,8 +1,8 @@
 const EnvironmentFactory = require("../factory/EnvironmentFactory");
 
 module.exports = EnvironmentApp;
-function EnvironmentApp(io){
-    const BASE_SQL = "select p.id, e.id as parent_id, e.symbol, e.created, p.name, p.value from parameters as p left join environments as e on e.id = p.parent_id";
+function EnvironmentApp(io, sqlStatementApp){
+    const BASE_SQL = sqlStatementApp.getByName("environment-app-base");
     const CREATED_SQL = "where created >= ? and created <= ? order by created asc";
     const REF_DT = 60*1000; // 60 секунд.
     const REF_ENV_SQL = `${CREATED_SQL} limit 1`;
