@@ -19,8 +19,8 @@ module.exports = (io)=>{
             const reward1 = {buy: new Parameter("buy-vo-1", "buy", -100, "vo-1"), sell: new Parameter("sell-vo-1", "sell", 500, "vo-1")}
             const reward2 = {buy: new Parameter("buy-vo-2", "buy", 700, "vo-2"), sell: new Parameter("sell-vo-2", "sell", -1000, "vo-2")}
             this.orders = [
-                new VirtualOrder("vo-1", new Timeslot(1000, 2000), environmentSent1, environmentExec1, reward1),
-                new VirtualOrder("vo-2", new Timeslot(2000, 3000), environmentSent2, environmentExec2, reward2)
+                new VirtualOrder("vo-1", environmentSent1, environmentExec1, reward1),
+                new VirtualOrder("vo-2", environmentSent2, environmentExec2, reward2)
             ];
             const dtoFactory = new VirtualOrderDTOFactory();
             const tablesFactory = new VirtualOrderTablesFactory();

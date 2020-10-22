@@ -6,14 +6,10 @@ module.exports.Constructor = VirtualOrder;
  * @constructor
  */
 function VirtualOrderBuilder(){
-    let _id, _timeslot, _orderSentEnvironment, _orderExecutedEnvironment;
+    let _id, _orderSentEnvironment, _orderExecutedEnvironment;
     const _reward = {};
     this.setId = str =>{
         _id = str;
-        return this;
-    };
-    this.setTimeslot = timeslot =>{
-        _timeslot = timeslot;
         return this;
     };
     this.setOrderSentEnvironment = environment =>{
@@ -29,7 +25,7 @@ function VirtualOrderBuilder(){
         return this;
     };
     this.build = ()=>{
-        return new VirtualOrder(_id, _timeslot, _orderSentEnvironment, _orderExecutedEnvironment, _reward);
+        return new VirtualOrder(_id, _orderSentEnvironment, _orderExecutedEnvironment, _reward);
     };
 }
 
@@ -38,13 +34,12 @@ function VirtualOrderBuilder(){
  * Виртуальный ордер имеет точку отправки и точку исполнения. В реальном мире это две разные точки.
  * Каждая такая точка - это объект типа Environment.
  * @param id
- * @param timeslot
  * @param orderSentEnvironment
  * @param orderExecutedEnvironment
  * @param reward
  * @constructor
  */
-function VirtualOrder(id, timeslot, orderSentEnvironment, orderExecutedEnvironment,  reward){
+function VirtualOrder(id, orderSentEnvironment, orderExecutedEnvironment,  reward){
     this.getId = ()=>{
         return id;
     };

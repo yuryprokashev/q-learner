@@ -24,7 +24,6 @@ function VirtualOrderFactory(){
             .setId(id)
             .setOrderSentEnvironment(orderSentEnvironment)
             .setOrderExecutedEnvironment(orderExecutedEnvironment)
-            .setTimeslot(timeBucket.getTimeslot())
             .addReward("buy", rewardParameters.buy)
             .addReward("sell", rewardParameters.sell)
             .build();
