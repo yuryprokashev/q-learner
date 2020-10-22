@@ -36,8 +36,13 @@ function ExperienceParametersFactory(){
                     experienceParameters.push(_paramFactory.fromObject(paramObject));
                 }
             });
-        })
-        return experienceParameters;
+        });
+        /*
+        Чтобы всегда порядок значений был одинаковый, сортируем параметры по имени.
+        */
+        return experienceParameters.sort((a, b)=>{
+            return a.getName() - b.getName();
+        });
 
     };
     function _experienceParameterName(currentParameterName, refParameterName){
