@@ -1,9 +1,12 @@
 const ParameterFactory = require("./ParameterFactory");
+const OneToManyMap = require("../../basic/OneToManyMap");
+const EnvironmentFactory = require("./EnvironmentFactory");
 const VirtualOrderBuilder = require("../model/entity/VirtualOrder").Builder;
 module.exports = VirtualOrderFactory;
 
 function VirtualOrderFactory(){
     const _paramFactory = new ParameterFactory();
+    const _environmentFactory = new EnvironmentFactory();
     this.fromTimeBucket = (timeBucket, executionDelay) =>{
         const delay = executionDelay || 0;
         const firstEnv = timeBucket.getObjects()[0];
@@ -78,4 +81,37 @@ function VirtualOrderFactory(){
     function _getOrderSentEnvironment(environments){
         return environments[0];
     }
+
+    /**
+     *
+     * @param voParamRecords
+     * @param envParamRecords
+     * @return {VirtualOrder[]}
+     * */
+    this.fromRecords = (voParamRecords, envParamRecords) =>{
+        const voParamsGroups = voParamRecords.reduce((acc, voParamRecord)=>{
+            acc.set(voParamRecord.parent_id, voParamRecord);
+            return acc;
+        }, new OneToManyMap());
+        const environmentsById = _environmentFactory.fromRecords(envParamRecords).reduce((acc, environment)=>{
+            acc.set(environment.getId(), environment);
+            return acc;
+        }, new Map());
+        return voParamsGroups.keys().map(voId =>{
+            const voParamRecords = voParamsGroups.get(voId);
+            const envSentId = voParamRecords[0].order_sent;
+            const envExecId = voParamRecords[0].order_executed;
+            const orderSentEnvironment = environmentsById.get(envSentId);
+            const orderExecutedEnvironment = environmentsById.get(envExecId);
+            const voBuilder = new VirtualOrderBuilder().setId(voId)
+                .setOrderSentEnvironment(orderSentEnvironment)
+                .setOrderExecutedEnvironment(orderExecutedEnvironment)
+            voParamRecords.map(paramRecord =>{
+                return _paramFactory.fromObject({parentId: paramRecord.parent_id, name: paramRecord.name, value: paramRecord.value});
+            }).forEach(param =>{
+                voBuilder.addReward(param.getName(), param);
+            });
+            return voBuilder.build();
+        })
+    };
 }
