@@ -1,5 +1,6 @@
 module.exports = SqlStatementApp;
-function SqlStatementApp(io, baseFolderPath){
+function SqlStatementApp(io, configApp){
+    const baseFolderPath = configApp.getSqlStatementRootPath();
     const _statementMap = new Map();
     this.getByName = name =>{
         if(_statementMap.has(name)) return _statementMap.get(name);

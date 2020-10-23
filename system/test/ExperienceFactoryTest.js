@@ -2,12 +2,12 @@ const ExperienceFactory = require("../factory/ExperienceFactory");
 const EnvironmentApp = require("../apps/EnvironmentApp");
 const RefSymbolPriceFactory = require("../factory/RefSymbolPriceFactory");
 const SqlStatementApp = require("../apps/SqlStatementApp");
-module.exports = (io)=>{
+module.exports = (io, configApp)=>{
     QUnit.module("experience-factory", {
         before: ()=>{
-            const sqlStatementApp = new SqlStatementApp(io, "C:/Users/yuryp/WebstormProjects/q-learner/system/sql/");
+            const sqlStatementApp = new SqlStatementApp(io, configApp);
             this.experienceFactory = new ExperienceFactory();
-            this.environmentApp = new EnvironmentApp(io, sqlStatementApp);
+            this.environmentApp = new EnvironmentApp(io, sqlStatementApp, configApp);
         }
     });
     QUnit.test("Can create Experience from current Environment and Reference Environment", assert =>{

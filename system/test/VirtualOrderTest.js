@@ -5,7 +5,7 @@ const parse = require("csv-parse/lib/sync");
 const VirtualOrderFactory = require("../factory/VirtualOrderFactory");
 const TimeBucketFactory = require("../factory/TimeBucketFactory");
 const EnvironmentFactory = require("../factory/EnvironmentFactory");
-module.exports = (io) =>{
+module.exports = (io, configApp)=>{
     QUnit.module("virtual-order", {
         before: ()=>{
             const voFactory = new VirtualOrderFactory();

@@ -8,10 +8,16 @@ const VirtualOrderApp = require("./apps/VirtualOrderApp");
 
 module.exports = QLearnerFacade;
 function QLearnerFacade(env){
+    const _io = new Io();
+
     const _configApp = new ConfigurationApp(env);
-    const _io = new Io(_configApp);
-    const _environmentApp = new EnvironmentApp(_io);
-    const _voApp = new VirtualOrderApp(_io);
+
+    const _sqlStatementApp = new SqlStatementApp(_io, _configApp);
+
+    const _environmentApp = new EnvironmentApp(_io, _sqlStatementApp, _configApp);
+    const _voApp = new VirtualOrderApp(_io, _sqlStatementApp, _configApp);
+    const _experienceApp = new ExperienceApp(_io);
+
     const _voFactory = new VirtualOrderFactory();
     const _timeBucketFactory = new TimeBucketFactory();
     const _voDTOFactory = new VirtualOrderDTOFactory();

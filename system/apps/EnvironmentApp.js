@@ -1,14 +1,15 @@
 const EnvironmentFactory = require("../factory/EnvironmentFactory");
 
 module.exports = EnvironmentApp;
-function EnvironmentApp(io, sqlStatementApp){
-    const BASE_SQL = sqlStatementApp.getByName("environment-app-base");
+function EnvironmentApp(io, sqlStatementApp, configApp){
+    const DB_CONFIG = configApp.getDbConfig();
+    const BASE_SQL = sqlStatementApp.getByName("environment-parameters-base");
     const CREATED_SQL = "where created >= ? and created <= ? order by created asc";
     const REF_DT = 60*1000; // 60 секунд.
     const REF_ENV_SQL = `${CREATED_SQL} limit 1`;
     const _envFactory = new EnvironmentFactory();
     this.getByCreatedDate = (start, end) =>{
-        const db = io.getDatabase();
+        const db = io.getDatabase(DB_CONFIG);
         const template = `${BASE_SQL} ${CREATED_SQL}`;
         const statement = db.prepare(template);
         const records = statement.all(start, end);
@@ -16,7 +17,7 @@ function EnvironmentApp(io, sqlStatementApp){
     };
     this.getReferenceEnvironment = (currentEnvironment, refDt) =>{
         const _refDt = refDt ? refDt : REF_DT;
-        const db = io.getDatabase();
+        const db = io.getDatabase(DB_CONFIG);
         const template = `${BASE_SQL} ${REF_ENV_SQL}`;
         const statement = db.prepare(template);
         const start = currentEnvironment.getCreatedAt() - _refDt;
@@ -25,7 +26,7 @@ function EnvironmentApp(io, sqlStatementApp){
         return _envFactory.fromRecords(records)[0];
     };
     this.getById = environmentId =>{
-        const db = io.getDatabase();
+        const db = io.getDatabase(DB_CONFIG);
         const template = `${BASE_SQL} where p.parent_id = '${environmentId}'`;
         const statement = db.prepare(template);
         const records = statement.all();
