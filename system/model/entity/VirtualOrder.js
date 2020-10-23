@@ -58,4 +58,10 @@ function VirtualOrder(id, orderSentEnvironment, orderExecutedEnvironment,  rewar
     this.getReward = type =>{
         return reward[type];
     };
+    this.getSentAt = ()=>{
+        return orderSentEnvironment.getCreatedAt();
+    };
+    this.getExecutedAt = ()=>{
+        return orderExecutedEnvironment.getCreatedAt();
+    };
 }

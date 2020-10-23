@@ -15,7 +15,9 @@ function VirtualOrderDTOFactory(){
             vOrder.getOrderExecutedEnvironment().getId(),
             vOrder.getExecutionDelay(),
             buyRewardDTO,
-            sellRewardDTO
+            sellRewardDTO,
+            vOrder.getSentAt(),
+            vOrder.getExecutedAt()
         );
     };
 }

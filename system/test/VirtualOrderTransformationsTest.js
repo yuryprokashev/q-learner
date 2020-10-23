@@ -55,7 +55,8 @@ module.exports = (io)=>{
         const firstVoTableGroup = this.voTableGroups[0];
         const firstTableOfFirstVoTableGroup = firstVoTableGroup.tables[0];
         assert.strictEqual(firstTableOfFirstVoTableGroup.name, "Virtual Orders")
-        assert.strictEqual(firstTableOfFirstVoTableGroup.columns.join("|"), "Id|Symbol|Environment When Sent|Environment When Executed|Exec Delay");
+        assert.strictEqual(firstTableOfFirstVoTableGroup.columns.join("|"),
+            "Id|Symbol|Environment When Sent|Environment When Executed|Exec Delay|Order Created|Order Executed");
         assert.strictEqual(firstTableOfFirstVoTableGroup.records.length, 1);
         const firstVoRecord = firstTableOfFirstVoTableGroup.records[0];
         assert.strictEqual(firstVoRecord.values[0], "vo-1");
@@ -64,6 +65,9 @@ module.exports = (io)=>{
         assert.strictEqual(firstVoRecord.values[2], "env-sent-1");
         assert.strictEqual(firstVoRecord.columns[2], "Environment When Sent");
         assert.strictEqual(firstVoRecord.types[2], "String");
+        assert.strictEqual(firstVoRecord.values[6], 1404);
+        assert.strictEqual(firstVoRecord.columns[6], "Order Executed");
+        assert.strictEqual(firstVoRecord.types[6], "Number");
         const secondTableOfFirstVoTableGroup = firstVoTableGroup.tables[1];
         assert.strictEqual(secondTableOfFirstVoTableGroup.name, "Parameters");
         assert.strictEqual(secondTableOfFirstVoTableGroup.columns.join("|"), "Id|Name|Value|Parent Id");
@@ -78,7 +82,7 @@ module.exports = (io)=>{
         // console.log(this.sqliteActionContext);
         const firstTransactionStatements = this.insertStatements[0];
         assert.strictEqual(firstTransactionStatements.length, 3);
-        assert.strictEqual(firstTransactionStatements[0], "insert into virtual_orders (id, symbol, sent_environment_id, executed_environment_id, exec_delay) values ('vo-1','MSFT','env-sent-1','env-exec-1',400)");
+        assert.strictEqual(firstTransactionStatements[0], "insert into virtual_orders (id, symbol, sent_environment_id, executed_environment_id, exec_delay, created, executed) values ('vo-1','MSFT','env-sent-1','env-exec-1',400,1004,1404)");
         assert.strictEqual(firstTransactionStatements[1], "insert into virtual_order_parameters (id, name, value, parent_id) values ('buy-vo-1','buy',-100,'vo-1')");
         assert.strictEqual(firstTransactionStatements[2], "insert into virtual_order_parameters (id, name, value, parent_id) values ('sell-vo-1','sell',500,'vo-1')");
     });

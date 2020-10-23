@@ -9,9 +9,13 @@ module.exports = VirtualOrderDTO;
  * @param executionDelay {number} - execution delay between order sent and order executed (milliseconds).
  * @param buyerReward {ParameterDTO} - the buyer reward parameter.
  * @param sellerReward {ParameterDTO} - the seller reward parameter.
+ * @param sent {number} - the order sent moment timestamp (ms).
+ * @param executed {number} - the order executed moment timestamp (ms).
  * @constructor
  */
-function VirtualOrderDTO(id, symbol, orderSentEnvironmentId, orderExecutedEnvironmentId, executionDelay, buyerReward, sellerReward){
+function VirtualOrderDTO(id, symbol, orderSentEnvironmentId,
+                         orderExecutedEnvironmentId, executionDelay, buyerReward,
+                         sellerReward, sent, executed){
     this.id = id;
     this.symbol = symbol;
     this.orderSentEnvironmentId = orderSentEnvironmentId;
@@ -19,4 +23,6 @@ function VirtualOrderDTO(id, symbol, orderSentEnvironmentId, orderExecutedEnviro
     this.executionDelay = executionDelay;
     this.buyerReward = buyerReward;
     this.sellerReward = sellerReward;
+    this.sent = sent;
+    this.executed = executed
 }
