@@ -12,8 +12,8 @@ function VirtualOrderFactory(){
         const duration = timeBucket.getTimeslot().getDuration();
         const id = _virtualOrderId(symbol, sent, duration,delay);
         const reward = _computeReward(timeBucket.getObjects(), delay);
-        const buyParameterObject = {parentId: id, name: `buy${duration/1000}`, value: reward.buy};
-        const sellParameterObject = {parentId: id, name: `sell${duration/1000}`, value: reward.sell};
+        const buyParameterObject = {parentId: id, name: `buy-reward`, value: reward.buy};
+        const sellParameterObject = {parentId: id, name: `sell-reward`, value: reward.sell};
         const rewardParameters = {
             buy: _paramFactory.fromObject(buyParameterObject),
             sell: _paramFactory.fromObject(sellParameterObject)
