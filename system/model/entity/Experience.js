@@ -25,7 +25,7 @@ function Experience(id, currentEnvironment, referenceEnvironment, parameters, co
     this.getCurrentEnvironment = ()=>{
         return currentEnvironment;
     };
-    this.getRefEnvironment = ()=>{
+    this.getReferenceEnvironment = ()=>{
         return referenceEnvironment;
     };
     this.getParameters = ()=>{

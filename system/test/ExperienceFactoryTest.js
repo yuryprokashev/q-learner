@@ -2,12 +2,14 @@ const ExperienceFactory = require("../factory/ExperienceFactory");
 const EnvironmentApp = require("../apps/EnvironmentApp");
 const RefSymbolPriceFactory = require("../factory/RefSymbolPriceFactory");
 const SqlStatementApp = require("../apps/SqlStatementApp");
+const ExperienceDTOFactory = require("../factory/ExperienceDTOFactory");
 module.exports = (io, configApp)=>{
     QUnit.module("experience-factory", {
         before: ()=>{
             const sqlStatementApp = new SqlStatementApp(io, configApp);
             this.experienceFactory = new ExperienceFactory();
             this.environmentApp = new EnvironmentApp(io, sqlStatementApp, configApp);
+            this.experienceDTOFactory = new ExperienceDTOFactory();
         }
     });
     QUnit.test("Can create Experience from current Environment and Reference Environment", assert =>{
@@ -44,5 +46,11 @@ module.exports = (io, configApp)=>{
         const paramIndex = this.experience.getParameterIndex("current-ma10-ref-ma160");
         const paramCode = this.experience.getCode().split("-")[paramIndex];
         assert.strictEqual(paramCode, "37");
+    });
+    QUnit.test("Experience => ExperienceDTO", assert =>{
+        const experienceDTO = this.experienceDTOFactory.create(this.experience, "vo-1");
+        assert.strictEqual(experienceDTO.virtualOrderId, "vo-1");
+        console.log(experienceDTO);
+        assert.strictEqual(experienceDTO.code, "16-11-64-71-78-81-92-16-69-76-83-86-97-9-16-23-26-37-4-10-14-25-2-5-16-1-12-0");
     });
 }
