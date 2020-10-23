@@ -4,14 +4,11 @@ const File = require("../model/entity/File");
 module.exports = Io;
 
 /**
- *
- * @param configApp
  * @constructor
  */
-function Io(configApp){
-    const dbConfig = configApp.getDbConfig();
+function Io(){
     let _db;
-    this.getDatabase = () =>{
+    this.getDatabase = dbConfig =>{
         if(_db) return _db;
         _db = dbConfig.isVerbose ? new BetterSqlite3(dbConfig.filePath, {verbose: console.log}) : new BetterSqlite3(dbConfig.filePath);
         process.on("exit", ()=>{
