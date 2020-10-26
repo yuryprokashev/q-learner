@@ -50,7 +50,6 @@ module.exports = (io, configApp)=>{
     QUnit.test("Experience => ExperienceDTO", assert =>{
         const experienceDTO = this.experienceDTOFactory.create(this.experience, "vo-1");
         assert.strictEqual(experienceDTO.virtualOrderId, "vo-1");
-        console.log(experienceDTO);
-        assert.strictEqual(experienceDTO.code, "16-11-64-71-78-81-92-16-69-76-83-86-97-9-16-23-26-37-4-10-14-25-2-5-16-1-12-0");
+        assert.strictEqual(experienceDTO.code, "16|11|64|71|78|81|92|16|69|76|83|86|97|9|16|23|26|37|4|10|14|25|2|5|16|1|12|0");
     });
 }

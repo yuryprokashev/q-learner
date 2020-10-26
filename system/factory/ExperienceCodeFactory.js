@@ -4,6 +4,6 @@ function ExperienceCodeFactory(){
     this.create = parameters =>{
         return parameters.map(param =>{
             return ExperienceParameterCodeFactory(param.getValue());
-        }).join("-");
+        }).join("|");
     };
 }
