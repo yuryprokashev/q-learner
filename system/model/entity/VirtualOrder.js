@@ -1,33 +1,5 @@
-module.exports.Builder = VirtualOrderBuilder;
-module.exports.Constructor = VirtualOrder;
-
-/**
- *
- * @constructor
- */
-function VirtualOrderBuilder(){
-    let _id, _orderSentEnvironment, _orderExecutedEnvironment;
-    const _reward = {};
-    this.setId = str =>{
-        _id = str;
-        return this;
-    };
-    this.setOrderSentEnvironment = environment =>{
-        _orderSentEnvironment = environment;
-        return this;
-    };
-    this.setOrderExecutedEnvironment = environment =>{
-        _orderExecutedEnvironment = environment;
-        return this;
-    };
-    this.addReward = (type, value) =>{
-        _reward[type] = value;
-        return this;
-    };
-    this.build = ()=>{
-        return new VirtualOrder(_id, _orderSentEnvironment, _orderExecutedEnvironment, _reward);
-    };
-}
+const ParameterGroup = require("./ParameterGroup");
+module.exports = VirtualOrder;
 
 /**
  * Виртуальный ордер помогает рассчитать награду для стратегий Продавец и Покупатель.
@@ -36,10 +8,10 @@ function VirtualOrderBuilder(){
  * @param id
  * @param orderSentEnvironment
  * @param orderExecutedEnvironment
- * @param reward
+ * @param parameterGroup
  * @constructor
  */
-function VirtualOrder(id, orderSentEnvironment, orderExecutedEnvironment,  reward){
+function VirtualOrder(id, orderSentEnvironment, orderExecutedEnvironment,  parameterGroup){
     this.getId = ()=>{
         return id;
     };
@@ -55,8 +27,11 @@ function VirtualOrder(id, orderSentEnvironment, orderExecutedEnvironment,  rewar
     this.getOrderExecutedEnvironment = ()=>{
         return orderExecutedEnvironment;
     };
-    this.getReward = type =>{
-        return reward[type];
+    this.getParameter = name =>{
+        return parameterGroup.get(name);
+    };
+    this.getParameters = ()=>{
+        return parameterGroup.all();
     };
     this.getSentAt = ()=>{
         return orderSentEnvironment.getCreatedAt();

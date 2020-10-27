@@ -26,11 +26,9 @@ function createTablesForOneVirtualOrderDTO(dto){
     const records = [new TableRecordDTO(VIRTUAL_ORDERS_COLUMNS, VIRTUAL_ORDERS_TYPES, values)];
     const voTable = new TableDTO("Virtual Orders", VIRTUAL_ORDERS_COLUMNS, VIRTUAL_ORDERS_TYPES, records);
     tables.push(voTable);
-    const buyerParamRecord = createParamRecord(dto.buyerReward);
-    const sellerParamRecord = createParamRecord(dto.sellerReward)
-    const paramRecords = [];
-    paramRecords.push(buyerParamRecord);
-    paramRecords.push(sellerParamRecord);
+    const paramRecords = dto.parameters.map(paramDto =>{
+        return createParamRecord(paramDto);
+    });
     tables.push(new TableDTO("Parameters", PARAM_COLUMNS, PARAM_TYPES, paramRecords));
     return tables;
 }

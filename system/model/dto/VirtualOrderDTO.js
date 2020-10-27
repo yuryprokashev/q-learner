@@ -7,22 +7,20 @@ module.exports = VirtualOrderDTO;
  * @param orderSentEnvironmentId {string} - the identifier of the Environment at the moment of order sent to broker.
  * @param orderExecutedEnvironmentId {string} - the identifier of Environment at the moment of order execution at broker.
  * @param executionDelay {number} - execution delay between order sent and order executed (milliseconds).
- * @param buyerReward {ParameterDTO} - the buyer reward parameter.
- * @param sellerReward {ParameterDTO} - the seller reward parameter.
+ * @param parameters {ParameterDTO} - the buyer reward parameter.
  * @param sent {number} - the order sent moment timestamp (ms).
  * @param executed {number} - the order executed moment timestamp (ms).
  * @constructor
  */
 function VirtualOrderDTO(id, symbol, orderSentEnvironmentId,
-                         orderExecutedEnvironmentId, executionDelay, buyerReward,
-                         sellerReward, sent, executed){
+                         orderExecutedEnvironmentId, executionDelay,
+                         parameters, sent, executed){
     this.id = id;
     this.symbol = symbol;
     this.orderSentEnvironmentId = orderSentEnvironmentId;
     this.orderExecutedEnvironmentId = orderExecutedEnvironmentId;
     this.executionDelay = executionDelay;
-    this.buyerReward = buyerReward;
-    this.sellerReward = sellerReward;
+    this.parameters = parameters;
     this.sent = sent;
     this.executed = executed
 }
