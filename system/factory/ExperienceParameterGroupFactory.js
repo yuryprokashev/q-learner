@@ -2,8 +2,9 @@ const ParameterFactory = require("./ParameterFactory");
 const ExperienceIdFactory = require("./ExperienceIdFactory");
 const ExperienceParameterValueFactory = require("./ExperienceParameterValueFactory");
 const RefSymbolPriceFactory = require("./RefSymbolPriceFactory");
-module.exports = ExperienceParametersFactory;
-function ExperienceParametersFactory(){
+const ParameterGroup = require("../model/entity/ParameterGroup");
+module.exports = ExperienceParameterGroupFactory;
+function ExperienceParameterGroupFactory(){
     const _paramFactory = new ParameterFactory();
     this.create = (currentEnvironment, refEnvironment)=>{
         /*
@@ -37,12 +38,7 @@ function ExperienceParametersFactory(){
                 }
             });
         });
-        /*
-        Чтобы всегда порядок значений был одинаковый, сортируем параметры по имени.
-        */
-        return experienceParameters.sort((a, b)=>{
-            return a.getName() - b.getName();
-        });
+        return new ParameterGroup(experienceParameters);
 
     };
     function _experienceParameterName(currentParameterName, refParameterName){
