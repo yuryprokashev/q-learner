@@ -1,4 +1,4 @@
-const VirtualOrderTablesFactory = require("../factory/VirtualOrderTablesFactory");
+const VirtualOrderTableGroupFactory = require("../factory/VirtualOrderTableGroupFactory");
 const InsertVirtualOrderStatementsFactory = require("../factory/InsertVirtualOrderStatementsFactory");
 const SqliteTransaction = require("../io/SqliteTransaction");
 const VirtualOrderFactory = require("../factory/VirtualOrderFactory");
@@ -10,7 +10,7 @@ function VirtualOrderApp(io, sqlStatementApp, configApp){
     const ENV_BASE_SQL = sqlStatementApp.getByName("environment-parameters-base");
     const CREATED_SQL = "where created >= ? and created <= ? order by created asc";
 
-    const _voTableFactory = new VirtualOrderTablesFactory();
+    const _virtualOrderTableGroupFactory = new VirtualOrderTableGroupFactory();
     const _insertStatementsFactory = new InsertVirtualOrderStatementsFactory();
     const _voFactory = new VirtualOrderFactory();
     const _envIdSetFactory = new EnvironmentIdSetFactory();
@@ -19,7 +19,7 @@ function VirtualOrderApp(io, sqlStatementApp, configApp){
      * @param orders{VirtualOrderDTO[]}
      */
     this.save = orders =>{
-        const voTableGroups = _voTableFactory.create(orders);
+        const voTableGroups = _virtualOrderTableGroupFactory.create(orders);
         const statementGroups = voTableGroups.map(tableGroup=>{
             return _insertStatementsFactory.create(tableGroup.tables);
         });
@@ -44,7 +44,6 @@ function VirtualOrderApp(io, sqlStatementApp, configApp){
         const db = io.getDatabase(DB_CONFIG);
 
         const voTemplate = `${VO_BASE_SQL} ${CREATED_SQL}`;
-        console.log(voTemplate);
         const voStatement = db.prepare(voTemplate);
         const voParamsRecords = voStatement.all(start, end);
 

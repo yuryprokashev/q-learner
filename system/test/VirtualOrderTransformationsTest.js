@@ -2,7 +2,7 @@ const VirtualOrder = require("../model/entity/VirtualOrder");
 const Parameter = require("../model/entity/Parameter");
 const Environment = require("../model/entity/Environment").Constructor;
 const VirtualOrderDTOFactory = require("../factory/VirtualOrderDTOFactory");
-const VirtualOrderTablesFactory = require("../factory/VirtualOrderTablesFactory");
+const VirtualOrderTablesFactory = require("../factory/VirtualOrderTableGroupFactory");
 const InsertVirtualOrderStatementsFactory = require("../factory/InsertVirtualOrderStatementsFactory");
 const ParameterGroup = require("../model/entity/ParameterGroup");
 
