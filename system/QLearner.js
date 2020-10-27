@@ -44,7 +44,7 @@ function QLearnerFacade(env){
             });
         });
         return tBuckets.map(bucket =>{
-            return _voFactory.fromTimeBucket(bucket, createOrdersRequest.executionDelay);
+            return _voFactory.fromEnvironments(bucket.getObjects(), bucket.getTimeslot().getDuration(), createOrdersRequest.executionDelay);
         }).map(vOrder =>{
             return _voDTOFactory.create(vOrder);
         });
