@@ -37,8 +37,12 @@ module.exports = (io, configApp)=>{
     QUnit.test("getId", assert =>{
         assert.strictEqual(this.vo.getId(), "v-order-_MSFT-1577982720000-1-0");
     });
-    QUnit.test("getReward", assert =>{
-        assert.strictEqual(this.vo.getReward("buy").getValue(), -0.07999999999998408, "Buy Reward is computed correctly");
-        assert.strictEqual(this.vo.getReward("sell").getValue(), -0.06999999999999318, "Sell Reward is computed correctly");
+    QUnit.test("Reward and Risk", assert =>{
+        assert.strictEqual(this.vo.getParameter("buy-reward").getValue(), -0.07999999999998408, "Buy Reward is computed correctly");
+        assert.strictEqual(this.vo.getParameter("sell-reward").getValue(), -0.06999999999999318, "Sell Reward is computed correctly");
+        assert.strictEqual(this.vo.getParameter("buy-risk").getValue(), 0.08999999999997499, "Buy Risk is computed correctly");
+        assert.strictEqual(this.vo.getParameter("sell-risk").getValue(), 0.07999999999998408, "Sell Risk is computed correctly");
+        console.log(this.vo.getParameter("buy-risk").getValue());
+        console.log(this.vo.getParameter("sell-risk").getValue());
     });
 }
