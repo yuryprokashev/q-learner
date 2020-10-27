@@ -2,7 +2,7 @@ const VirtualOrder = require("../model/entity/VirtualOrder");
 const Parameter = require("../model/entity/Parameter");
 const Environment = require("../model/entity/Environment").Constructor;
 const VirtualOrderDTOFactory = require("../factory/VirtualOrderDTOFactory");
-const VirtualOrderTablesFactory = require("../factory/VirtualOrderTableGroupFactory");
+const VirtualOrderTableGroupFactory = require("../factory/VirtualOrderTableGroupFactory");
 const InsertVirtualOrderStatementsFactory = require("../factory/InsertVirtualOrderStatementsFactory");
 const ParameterGroup = require("../model/entity/ParameterGroup");
 
@@ -23,7 +23,7 @@ module.exports = (io, configApp)=>{
                 new VirtualOrder("vo-2", environmentSent2, environmentExec2, new ParameterGroup(reward2))
             ];
             const dtoFactory = new VirtualOrderDTOFactory();
-            const tablesFactory = new VirtualOrderTablesFactory();
+            const tablesFactory = new VirtualOrderTableGroupFactory();
             const insertFactory = new InsertVirtualOrderStatementsFactory();
             this.orderDTOs = this.orders.map(order =>{
                 return dtoFactory.create(order);

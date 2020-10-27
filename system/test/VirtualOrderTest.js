@@ -42,7 +42,5 @@ module.exports = (io, configApp)=>{
         assert.strictEqual(this.vo.getParameter("sell-reward").getValue(), -0.06999999999999318, "Sell Reward is computed correctly");
         assert.strictEqual(this.vo.getParameter("buy-risk").getValue(), 0.08999999999997499, "Buy Risk is computed correctly");
         assert.strictEqual(this.vo.getParameter("sell-risk").getValue(), 0.07999999999998408, "Sell Risk is computed correctly");
-        console.log(this.vo.getParameter("buy-risk").getValue());
-        console.log(this.vo.getParameter("sell-risk").getValue());
     });
 }
