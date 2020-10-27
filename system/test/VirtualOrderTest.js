@@ -25,7 +25,7 @@ module.exports = (io, configApp)=>{
             this.timeBuckets = timeBuckets;
             this.eRecords = eRecords;
             this.environments = environments;
-            this.vo = voFactory.fromTimeBucket(timeBuckets[0]);
+            this.vo = voFactory.fromEnvironments(timeBuckets[0].getObjects(), timeBuckets[0].getTimeslot().getDuration());
         }
     });
     QUnit.test("Virtual Order Assembly Process", assert =>{

@@ -1,10 +1,10 @@
-const VirtualOrder = require("../model/entity/VirtualOrder").Constructor;
-const Timeslot = require("../model/entity/Timeslot");
+const VirtualOrder = require("../model/entity/VirtualOrder");
 const Parameter = require("../model/entity/Parameter");
 const Environment = require("../model/entity/Environment").Constructor;
 const VirtualOrderDTOFactory = require("../factory/VirtualOrderDTOFactory");
 const VirtualOrderTablesFactory = require("../factory/VirtualOrderTablesFactory");
 const InsertVirtualOrderStatementsFactory = require("../factory/InsertVirtualOrderStatementsFactory");
+const ParameterGroup = require("../model/entity/ParameterGroup");
 
 
 module.exports = (io, configApp)=>{
@@ -16,11 +16,11 @@ module.exports = (io, configApp)=>{
             const environmentSent2 = new Environment("env-sent-2", 2156, "MSFT", emptyParams);
             const environmentExec1 = new Environment("env-exec-1", 1404, "MSFT", emptyParams);
             const environmentExec2 = new Environment("env-exec-2", 2456, "MSFT", emptyParams);
-            const reward1 = {buy: new Parameter("buy-vo-1", "buy", -100, "vo-1"), sell: new Parameter("sell-vo-1", "sell", 500, "vo-1")}
-            const reward2 = {buy: new Parameter("buy-vo-2", "buy", 700, "vo-2"), sell: new Parameter("sell-vo-2", "sell", -1000, "vo-2")}
+            const reward1 = [new Parameter("buy-vo-1", "buy", -100, "vo-1"),new Parameter("sell-vo-1", "sell", 500, "vo-1")];
+            const reward2 = [new Parameter("buy-vo-2", "buy", 700, "vo-2"), new Parameter("sell-vo-2", "sell", -1000, "vo-2")];
             this.orders = [
-                new VirtualOrder("vo-1", environmentSent1, environmentExec1, reward1),
-                new VirtualOrder("vo-2", environmentSent2, environmentExec2, reward2)
+                new VirtualOrder("vo-1", environmentSent1, environmentExec1, new ParameterGroup(reward1)),
+                new VirtualOrder("vo-2", environmentSent2, environmentExec2, new ParameterGroup(reward2))
             ];
             const dtoFactory = new VirtualOrderDTOFactory();
             const tablesFactory = new VirtualOrderTablesFactory();
@@ -42,14 +42,16 @@ module.exports = (io, configApp)=>{
         assert.strictEqual(firstOrderDTO.orderSentEnvironmentId, "env-sent-1");
         assert.strictEqual(firstOrderDTO.orderExecutedEnvironmentId, "env-exec-1");
         assert.strictEqual(firstOrderDTO.executionDelay, 400);
-        assert.strictEqual(firstOrderDTO.buyerReward.id, "buy-vo-1");
-        assert.strictEqual(firstOrderDTO.buyerReward.name, "buy");
-        assert.strictEqual(firstOrderDTO.buyerReward.value, -100);
-        assert.strictEqual(firstOrderDTO.buyerReward.parentId, "vo-1");
-        assert.strictEqual(firstOrderDTO.sellerReward.id, "sell-vo-1");
-        assert.strictEqual(firstOrderDTO.sellerReward.name, "sell");
-        assert.strictEqual(firstOrderDTO.sellerReward.value, 500);
-        assert.strictEqual(firstOrderDTO.sellerReward.parentId, "vo-1");
+        const firstParameterDTO = firstOrderDTO.parameters[0];
+        assert.strictEqual(firstOrderDTO.parameters[0].id, "buy-vo-1");
+        assert.strictEqual(firstParameterDTO.name, "buy");
+        assert.strictEqual(firstParameterDTO.value, -100);
+        assert.strictEqual(firstParameterDTO.parentId, "vo-1");
+        const secondParameterDTO = firstOrderDTO.parameters[1];
+        assert.strictEqual(secondParameterDTO.id, "sell-vo-1");
+        assert.strictEqual(secondParameterDTO.name, "sell");
+        assert.strictEqual(secondParameterDTO.value, 500);
+        assert.strictEqual(secondParameterDTO.parentId, "vo-1");
     });
     QUnit.test("VirtualOrderDTO => TableGroup", assert =>{
         const firstVoTableGroup = this.voTableGroups[0];

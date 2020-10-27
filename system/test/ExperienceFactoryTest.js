@@ -44,7 +44,7 @@ module.exports = (io, configApp)=>{
     });
     QUnit.test("The code of the single experience parameter is this parameter value amplified by 10,000 and truncated", assert=>{
         const paramIndex = this.experience.getParameterIndex("current-ma10-ref-ma160");
-        const paramCode = this.experience.getCode().split("-")[paramIndex];
+        const paramCode = this.experience.getCode().split("|")[paramIndex];
         assert.strictEqual(paramCode, "37");
     });
     QUnit.test("Experience => ExperienceDTO", assert =>{
