@@ -7,6 +7,7 @@ const VirtualOrderTest = require("./VirtualOrderTest");
 const EnvironmentAppTest = require("./EnvironmentAppTest");
 const ExperienceFactoryTest = require("./ExperienceFactoryTest");
 const VirtualOrderAppTest = require("./VirtualOrderAppTest");
+const ExperienceTransformationsTest = require("./ExperienceTransformationsTest");
 
 const io = new Io();
 const configApp = new ConfigurationApp("test");
@@ -17,3 +18,4 @@ VirtualOrderTest(io, configApp);
 EnvironmentAppTest(io, configApp);
 ExperienceFactoryTest(io, configApp);
 VirtualOrderAppTest(io, configApp);
+ExperienceTransformationsTest(io, configApp);
