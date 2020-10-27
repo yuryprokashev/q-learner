@@ -5,20 +5,14 @@ module.exports = Experience;
  * @param id
  * @param currentEnvironment{Environment}
  * @param referenceEnvironment{Environment}
- * @param parameters{Parameter[]}
+ * @param parameterGroup
  * @param code{string} The Code of Experience is a representation of it's parameters as a string.<br>
  * It's the cornerstone of the system, because it is search key for the reward-risk of the Virtual Order.<br>
  * Anyone who is able to compute the Experience key from environment data, may then ask the system for reward-risk
  * stats for this key and make a better trading decision.
  * @constructor
  */
-function Experience(id, currentEnvironment, referenceEnvironment, parameters, code){
-    const _paramMap = new Map();
-    const _paramNames = [];
-    parameters.forEach(p=>{
-        _paramMap.set(p.getName(), p);
-        _paramNames.push(p.getName());
-    });
+function Experience(id, currentEnvironment, referenceEnvironment, parameterGroup, code){
     this.getId = ()=>{
         return id;
     };
@@ -29,15 +23,15 @@ function Experience(id, currentEnvironment, referenceEnvironment, parameters, co
         return referenceEnvironment;
     };
     this.getParameters = ()=>{
-        return parameters;
+        return parameterGroup.all();
     };
     this.getParameter = name =>{
-        return _paramMap.get(name);
+        return parameterGroup.get(name);
     };
     this.getCode = ()=>{
         return code;
     };
     this.getParameterIndex = name =>{
-        return _paramNames.indexOf(name);
+        return parameterGroup.indexOf(name);
     };
 }

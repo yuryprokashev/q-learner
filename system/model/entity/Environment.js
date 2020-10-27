@@ -1,3 +1,4 @@
+const ParameterGroup = require("./ParameterGroup");
 module.exports.Builder = EnvironmentBuilder;
 module.exports.Constructor = Environment;
 
@@ -25,7 +26,8 @@ function EnvironmentBuilder(){
         return this;
     }
     this.build = ()=>{
-        return new Environment(_id, _createdAt, _symbol, _params);
+        const paramGroup = new ParameterGroup(_params);
+        return new Environment(_id, _createdAt, _symbol, paramGroup);
     };
 }
 
@@ -34,14 +36,10 @@ function EnvironmentBuilder(){
  * @param id
  * @param created
  * @param symbol
- * @param params
+ * @param parameterGroup
  * @constructor
  */
-function Environment(id, created, symbol, params){
-    let paramMap = new Map();
-    params.forEach(p=>{
-        paramMap.set(p.getName(), p);
-    })
+function Environment(id, created, symbol, parameterGroup){
     this.getId = ()=>{
         return id;
     };
@@ -52,9 +50,9 @@ function Environment(id, created, symbol, params){
         return symbol;
     };
     this.getParameters = ()=>{
-        return params;
+        return parameterGroup.all();
     };
     this.getParameter = name =>{
-        return paramMap.get(name);
+        return parameterGroup.get(name);
     };
 }

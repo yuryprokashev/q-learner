@@ -15,7 +15,7 @@ module.exports = (io, configApp) =>{
         assert.strictEqual(orders.length, 3);
         const firstOrder = orders[0];
         assert.strictEqual(firstOrder.getId(), "v-order-_MSFT-1577982720000-600-20");
-        assert.strictEqual(firstOrder.getReward("buy-reward").getValue(), 1.03999999999999);
+        assert.strictEqual(firstOrder.getParameter("buy-reward").getValue(), 1.03999999999999);
         assert.strictEqual(firstOrder.getOrderSentEnvironment().getParameter("bid").getValue(), 158.310000000000002274);
     });
 }
