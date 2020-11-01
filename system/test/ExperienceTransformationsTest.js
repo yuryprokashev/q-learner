@@ -3,6 +3,7 @@ const ParameterGroup = require("../model/entity/ParameterGroup");
 const Parameter = require("../model/entity/Parameter");
 const ExperienceDTOFactory = require("../factory/ExperienceDTOFactory");
 const ExperienceTableGroupFactory = require("../factory/ExperienceTableGroupFactory");
+const InsertExperienceStatementsFactory = require("../factory/InsertExperienceStatementsFactory");
 const Environment = require("../model/entity/Environment").Constructor;
 
 module.exports = (io, configApp)=>{
@@ -23,11 +24,14 @@ module.exports = (io, configApp)=>{
             ];
             const dtoFactory = new ExperienceDTOFactory();
             const tableGroupFactory = new ExperienceTableGroupFactory();
-            // const insertFactory = new InsertExperiencesStatementsFactory();
+            const insertFactory = new InsertExperienceStatementsFactory();
             this.dtos = experiences.map((exp, index) =>{
                 return dtoFactory.create(exp, "vo-" + index);
             });
             this.tableGroups = tableGroupFactory.create(this.dtos);
+            this.statements = this.tableGroups.map(tableGroup =>{
+                return insertFactory.create(tableGroup.tables);
+            });
         }
     });
     QUnit.test("Experience => ExperienceDTO", assert =>{
@@ -71,5 +75,6 @@ module.exports = (io, configApp)=>{
     });
     QUnit.test("TableGroup => SQL Statements", assert =>{
         assert.expect(0);
+        console.log(this.statements);
     });
 }
