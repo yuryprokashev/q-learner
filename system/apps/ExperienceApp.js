@@ -1,11 +1,11 @@
 const ExperienceDTO = require("../model/dto/ExperienceDTO");
-const ExperienceTablesFactory = require("../factory/TableGroupFactory");
 const InsertExperienceStatementsFactory = require("../factory/InsertExperienceStatementsFactory");
 const DTOArrayToSqliteWriter = require("../io/DTOArrayToSqliteWriter");
+const ExperienceTableGroupFactory = require("../factory/ExperienceTableGroupFactory");
 module.exports = ExperienceApp;
 function ExperienceApp(io){
     const _insertStatementsFactory = new InsertExperienceStatementsFactory();
-    const _experienceTableFactory = new ExperienceTablesFactory();
+    const _experienceTableFactory = new ExperienceTableGroupFactory();
     const _dtoArrayToSqliteWriter = new DTOArrayToSqliteWriter(io, _experienceTableFactory, _insertStatementsFactory);
     /**
      *
