@@ -4,10 +4,6 @@ function LoadExperiences(qLearner, userRequest){
     /*
     Просим ее создать виртуальные ордера
      */
-    const createOrdersRequest = new CreateVirtualOrderRequestFactory().create(userRequest);
-    const orders = qLearner.createVirtualOrders(createOrdersRequest);
-    /*
-    Просим ее записать эти ордера в базу
-     */
-    qLearner.saveVirtualOrders(orders);
+    const loadExperiencesRequest = new LoadExperiencesRequestFactory().create(userRequest);
+    const result = qLearner.loadExperiences(loadExperiencesRequest);
 }
