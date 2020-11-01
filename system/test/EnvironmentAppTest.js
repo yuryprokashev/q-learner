@@ -23,5 +23,6 @@ module.exports = (io, configApp)=>{
          const currentEnvironment = this.environmentApp.getById("environment-_MSFT-1577982780476");
          const refEnvironment = this.environmentApp.getReferenceEnvironment(currentEnvironment, 60000);
          assert.strictEqual(refEnvironment.getId(), "environment-_MSFT-1577982720779");
+         assert.strictEqual(refEnvironment.getParameters().length, 7);
     });
 };

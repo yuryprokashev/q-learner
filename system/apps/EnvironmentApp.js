@@ -6,7 +6,7 @@ function EnvironmentApp(io, sqlStatementApp, configApp){
     const BASE_SQL = sqlStatementApp.getByName("environment-parameters-base");
     const CREATED_SQL = "where created >= ? and created <= ? order by created asc";
     const REF_DT = 60*1000; // 60 секунд.
-    const REF_ENV_SQL = `${CREATED_SQL} limit 1`;
+    const REF_ENV_SQL = `${CREATED_SQL} limit 7`; // 7 параметров в одной environment
     const _envFactory = new EnvironmentFactory();
     this.getByCreatedDate = (start, end) =>{
         const db = io.getDatabase(DB_CONFIG);

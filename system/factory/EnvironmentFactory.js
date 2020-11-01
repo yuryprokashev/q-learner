@@ -1,6 +1,7 @@
 const OneToManyMap = require("../../basic/OneToManyMap");
 const ParameterFactory = require("./ParameterFactory");
 const EnvironmentBuilder = require("../model/entity/Environment").Builder;
+const Validator = require("../../basic/Validator");
 module.exports = EnvironmentFactory;
 function EnvironmentFactory(){
     const _paramFactory = new ParameterFactory();
@@ -15,6 +16,8 @@ function EnvironmentFactory(){
      * @returns {Environment}
      */
     this.fromRecords = records =>{
+        Validator.isDefined("Environment Records", records);
+        Validator.mustBeTrue(records.length > 0, "Environment Records length is 0");
         const recordGroups = records.reduce((acc, record) =>{
             acc.set(record.parent_id, record);
             return acc;
