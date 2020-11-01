@@ -1,4 +1,4 @@
-module.exports = CreateVirtualOrdersUserRequest;
+module.exports = LoadExperiencesUserRequest;
 
 /**
  *
@@ -9,7 +9,7 @@ module.exports = CreateVirtualOrdersUserRequest;
  * @param {number} executionDelay - the delay between the order placed and the order executed
  * @constructor
  */
-function CreateVirtualOrdersUserRequest(startDay, dayCount, rewardPeriod, step, executionDelay){
+function LoadExperiencesUserRequest(startDay, dayCount, rewardPeriod, step, executionDelay){
     this.start = startDay;
     this.dayCount = dayCount;
     this.rewardPeriod = rewardPeriod;

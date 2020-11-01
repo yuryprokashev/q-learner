@@ -1,6 +1,6 @@
-const CreateVirtualOrderRequestFactory = require("../system/factory/CreateVirtualOrderRequestFactory");
-module.exports = CreateVirtualOrders;
-function CreateVirtualOrders(qLearner, userRequest){
+const LoadExperiencesRequestFactory = require("../system/factory/LoadExperiencesRequestFactory");
+module.exports = LoadExperiences;
+function LoadExperiences(qLearner, userRequest){
     /*
     Просим ее создать виртуальные ордера
      */

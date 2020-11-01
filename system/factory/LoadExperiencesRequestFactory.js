@@ -1,16 +1,16 @@
-const CreateVirtualOrdersRequest = require("../model/request/CreateVirtualOrdersRequest");
-module.exports = CreateVirtualOrderRequestFactory;
+const LoadExperiencesRequest = require("../model/request/LoadExperiencesRequest");
+module.exports = LoadExperiencesRequestFactory;
 
 /**
  *
  * @constructor
  */
-function CreateVirtualOrderRequestFactory(){
+function LoadExperiencesRequestFactory(){
     const MIN_MS = 60 * 1000;
     const DAY_MS = 24 * 60 * MIN_MS;
     /**
      *
-     * @param {CreateVirtualOrdersUserRequest} userRequest
+     * @param {LoadExperiencesUserRequest} userRequest
      */
     this.create = userRequest =>{
         const userStart = userRequest.start.split("-").map(str => {return parseInt(str);});
@@ -19,6 +19,6 @@ function CreateVirtualOrderRequestFactory(){
         const period = userRequest.rewardPeriod * MIN_MS;
         const step = userRequest.step ? userRequest.step * MIN_MS : undefined;
         const executionDelay = userRequest.executionDelay;
-        return new CreateVirtualOrdersRequest(startUtc, endUtc, period, step, executionDelay);
+        return new LoadExperiencesRequest(startUtc, endUtc, period, step, executionDelay);
     };
 }
