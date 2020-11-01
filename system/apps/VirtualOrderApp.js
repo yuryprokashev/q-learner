@@ -1,8 +1,8 @@
 const VirtualOrderTableGroupFactory = require("../factory/VirtualOrderTableGroupFactory");
 const InsertVirtualOrderStatementsFactory = require("../factory/InsertVirtualOrderStatementsFactory");
-const SqliteTransaction = require("../io/SqliteTransaction");
 const VirtualOrderFactory = require("../factory/VirtualOrderFactory");
 const EnvironmentIdSetFactory = require("../factory/EnvironmentIdSetFactory");
+const DTOArrayToSqliteWriter = require("../io/DTOArrayToSqliteWriter");
 module.exports = VirtualOrderApp;
 function VirtualOrderApp(io, sqlStatementApp, configApp){
     const DB_CONFIG = configApp.getDbConfig();
@@ -14,19 +14,13 @@ function VirtualOrderApp(io, sqlStatementApp, configApp){
     const _insertStatementsFactory = new InsertVirtualOrderStatementsFactory();
     const _voFactory = new VirtualOrderFactory();
     const _envIdSetFactory = new EnvironmentIdSetFactory();
+    const _dtoArrayToSqliteWriter = new DTOArrayToSqliteWriter(io, _virtualOrderTableGroupFactory, _insertStatementsFactory);
     /**
      *
      * @param orders{VirtualOrderDTO[]}
      */
     this.save = orders =>{
-        const voTableGroups = _virtualOrderTableGroupFactory.create(orders);
-        const statementGroups = voTableGroups.map(tableGroup=>{
-            return _insertStatementsFactory.create(tableGroup.tables);
-        });
-        return statementGroups.map(statementGroup =>{
-            const action = new SqliteTransaction(io);
-            return action.execute(statementGroup);
-        });
+        return _dtoArrayToSqliteWriter.execute(orders);
     };
     /**
      *
