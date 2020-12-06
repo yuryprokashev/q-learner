@@ -26,16 +26,14 @@ function ExperienceParameterGroupFactory(){
          */
         const experienceParameters = [];
         const refSymbolPriceOfCurrentEnvironment = RefSymbolPriceFactory(currentEnvironment);
-        currentEnvironment.getParameters().forEach((currentParameter, currentParameterIndex) =>{
-            refEnvironment.getParameters().forEach((refParameter, refParameterIndex) =>{
-                if(refParameterIndex >= currentParameterIndex){
-                    const paramObject = {
-                        parentId: ExperienceIdFactory(currentEnvironment.getId(), refEnvironment.getId()),
-                        name: _experienceParameterName(currentParameter.getName(), refParameter.getName()),
-                        value: ExperienceParameterValueFactory(currentParameter.getValue(), refParameter.getValue(), refSymbolPriceOfCurrentEnvironment)
-                    }
-                    experienceParameters.push(_paramFactory.fromObject(paramObject));
+        currentEnvironment.getParameters().forEach((currentParameter) =>{
+            refEnvironment.getParameters().forEach((refParameter) =>{
+                const paramObject = {
+                    parentId: ExperienceIdFactory(currentEnvironment.getId(), refEnvironment.getId()),
+                    name: _experienceParameterName(currentParameter.getName(), refParameter.getName()),
+                    value: ExperienceParameterValueFactory(currentParameter.getValue(), refParameter.getValue(), refSymbolPriceOfCurrentEnvironment)
                 }
+                experienceParameters.push(_paramFactory.fromObject(paramObject));
             });
         });
         return new ParameterGroup(experienceParameters);
