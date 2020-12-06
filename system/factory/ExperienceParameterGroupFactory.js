@@ -25,14 +25,14 @@ function ExperienceParameterGroupFactory(){
         Нетрудно заметить, что d-ma-20-10 = - d-ma-10-20 и т.п. То есть, параметров, у которых значение имеет значение не 9, а 6.
          */
         const experienceParameters = [];
-        const refSymbolPrice = RefSymbolPriceFactory(refEnvironment);
+        const refSymbolPriceOfCurrentEnvironment = RefSymbolPriceFactory(currentEnvironment);
         currentEnvironment.getParameters().forEach((currentParameter, currentParameterIndex) =>{
             refEnvironment.getParameters().forEach((refParameter, refParameterIndex) =>{
                 if(refParameterIndex >= currentParameterIndex){
                     const paramObject = {
                         parentId: ExperienceIdFactory(currentEnvironment.getId(), refEnvironment.getId()),
                         name: _experienceParameterName(currentParameter.getName(), refParameter.getName()),
-                        value: ExperienceParameterValueFactory(currentParameter.getValue(), refParameter.getValue(), refSymbolPrice)
+                        value: ExperienceParameterValueFactory(currentParameter.getValue(), refParameter.getValue(), refSymbolPriceOfCurrentEnvironment)
                     }
                     experienceParameters.push(_paramFactory.fromObject(paramObject));
                 }
