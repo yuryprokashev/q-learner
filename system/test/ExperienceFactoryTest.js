@@ -19,8 +19,8 @@ module.exports = (io, configApp)=>{
         assert.strictEqual(this.experience.getId(), "environment-_MSFT-1577982780476-environment-_MSFT-1577982720779");
     });
     QUnit.test('Reference Symbol Price is (ask + bid)/2', assert =>{
-        this.refSymbolPrice = RefSymbolPriceFactory(this.refEnvironment);
-        assert.strictEqual(this.refSymbolPrice, 158.349999999999994315658);
+        this.refSymbolPrice = RefSymbolPriceFactory(this.currentEnvironment);
+        assert.strictEqual(this.refSymbolPrice, 158.61);
     });
     QUnit.test("The value of experience parameter is (Current_Env_Parameter_i - Ref_Env_Parameter_j) / Ref_Symbol_Price", assert =>{
         const currentMa10 = this.currentEnvironment.getParameter("ma10");
@@ -29,18 +29,8 @@ module.exports = (io, configApp)=>{
         this.experienceParameterMa10Ma160 = this.experience.getParameter("current-ma10-ref-ma160");
         assert.strictEqual(this.experienceParameterMa10Ma160.getValue(), experienceParameterValue);
     })
-    QUnit.test("The number of parameters in one experience is SUM(7..1) when Environment parameter count is 7", assert =>{
-        /*
-        Мы считаем разность current(i) - ref(j) только для тех j, которые больше или равны i.
-        Таким образом получается что если i = j = 7, то для i = 1 мы пройдем по j от 1 до 7 (всего 7).
-        Для i = 2  мы пройдем по j  от 2 до 7 (всего 6).
-        То есть кол-во параметров будет 7+6+5...+2+1 = 28.
-         */
-        const experienceParameterLength = this.currentEnvironment.getParameters().reduce((acc, param, index)=>{
-            acc += (index+1);
-            return acc;
-        },0);
-        assert.strictEqual(this.experience.getParameters().length, experienceParameterLength);
+    QUnit.test("The number of parameters in one experience is 7x7 = 49 when Environment parameter count is 7", assert =>{
+        assert.strictEqual(this.experience.getParameters().length, 49);
     });
     QUnit.test("The code of the single experience parameter is this parameter value amplified by 10,000 and truncated", assert=>{
         const paramIndex = this.experience.getParameterIndex("current-ma10-ref-ma160");
@@ -50,6 +40,6 @@ module.exports = (io, configApp)=>{
     QUnit.test("Experience => ExperienceDTO", assert =>{
         const experienceDTO = this.experienceDTOFactory.create(this.experience, "vo-1");
         assert.strictEqual(experienceDTO.virtualOrderId, "vo-1");
-        assert.strictEqual(experienceDTO.code, "16|11|64|71|78|81|92|16|69|76|83|86|97|9|16|23|26|37|4|10|14|25|2|5|16|1|12|0");
+        assert.strictEqual(experienceDTO.code, "16|11|64|71|78|81|92|21|16|69|76|83|86|97|-38|-43|9|16|23|26|37|-50|-55|-2|4|10|14|25|-59|-64|-11|-4|2|5|16|-63|-69|-15|-8|-2|1|12|-75|-80|-27|-20|-13|-10|0");
     });
 }

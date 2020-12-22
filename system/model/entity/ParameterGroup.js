@@ -2,9 +2,7 @@ module.exports = ParameterGroup;
 function ParameterGroup(parameters){
     const _paramMap = new Map();
     const _paramNames = [];
-    parameters.sort((a,b)=>{
-        return a.getName() - b.getName();
-    }).forEach(p=>{
+    parameters.forEach(p=>{
         _paramMap.set(p.getName(), p);
         _paramNames.push(p.getName());
     });
