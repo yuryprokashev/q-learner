@@ -13,6 +13,6 @@ Script produces the stock state vector from the set of stock moving averages tak
 
 Script reads Envivironment data from the SQLite DB. It's written there by MQL5 script (https://www.mql5.com/en/docs), which is not in this repo.
 
-Script writes produces keys into SQLite.
+Script writes produced keys into SQLite.
 
 That approach does not bring money, however. :)
